@@ -17,10 +17,12 @@ export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
+      //@ts-ignore
       async authorize(credentials) {
         const parsedCredentials = z
           .object({ email: z.string(), password: z.string() })
           .safeParse(credentials);
+        //@ts-ignore
         const { email, password } = parsedCredentials?.data;
         const user = await getUser(email);
         if (parsedCredentials.success) {

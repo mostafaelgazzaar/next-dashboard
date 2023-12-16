@@ -3,6 +3,7 @@ import { updateExamResult } from "@/app/lib/actions/module-actions";
 import { useFormState } from "react-dom";
 import { Button } from "@/app/ui/button";
 
+// @ts-ignore
 function shuffle(array) {
   const shuffledArray = [...array];
   for (let i = shuffledArray.length - 1; i > 0; i--) {
@@ -11,9 +12,10 @@ function shuffle(array) {
   }
   return shuffledArray;
 }
-
+// @ts-ignore
 const TestComponent = ({ questions, moduleId, userId }) => {
   const initialState = { message: "", errors: {} };
+  // @ts-ignore
   const [state, dispatch] = useFormState(updateExamResult, initialState);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -31,15 +33,19 @@ const TestComponent = ({ questions, moduleId, userId }) => {
     showQuestion(0);
   };
 
-  const showQuestion = (index) => {
+  const showQuestion = (index: number) => {
     resetState();
     let currentQuestion = questions[index];
     let questionNumber = index + 1;
     setQuestionText(`${questionNumber}. ${currentQuestion.question}`);
     const shuffledChoices = shuffle(currentQuestion.choices);
+    // @ts-ignore
     setChoices(shuffledChoices);
+    // @ts-ignore
     setCorrectAnswer(
-      currentQuestion.choices.findIndex((choice) => choice.answer === true)
+      currentQuestion.choices.findIndex(
+        (choice: Choice) => choice.answer === true
+      )
     );
   };
 
@@ -49,7 +55,13 @@ const TestComponent = ({ questions, moduleId, userId }) => {
     setSelectedAnswer(null);
   };
 
-  const selectChoice = (isCorrect, index) => {
+  const selectChoice = ({
+    isCorrect,
+    index,
+  }: {
+    isCorrect: boolean;
+    index: any;
+  }) => {
     if (isCorrect) {
       setScore(score + 1);
     }
@@ -91,16 +103,18 @@ const TestComponent = ({ questions, moduleId, userId }) => {
               key={index}
               className={`btn ${
                 selectedAnswer === index
-                  ? choice.answer
+                  ? choice["answer"]
                     ? "correct"
                     : "incorrect"
                   : ""
               }`}
-              onClick={() => selectChoice(choice.answer, index)}
-              aria-label={choice.text}
+              onClick={() =>
+                selectChoice({ isCorrect: choice["answer"], index: index })
+              }
+              aria-label={choice["text"]}
               disabled={selectedAnswer !== null}
             >
-              {choice.text}
+              {choice["text"]}
             </button>
           ))}
         </div>
@@ -123,3 +137,9 @@ const TestComponent = ({ questions, moduleId, userId }) => {
 };
 
 export default TestComponent;
+
+export type Choice = {
+  id: string;
+  text: string;
+  answer: boolean;
+};

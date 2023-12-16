@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     await checkUserCompletion(userId, moduleId);
   const ratingValue = percentage / 10;
 
-  const data = [
+  const data: [string, number | string][] = [
     ["Task", "User Activity"],
     [
       "Time on Platform",

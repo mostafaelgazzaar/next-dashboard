@@ -3,13 +3,14 @@ import { SessionProvider } from "next-auth/react";
 import Navbar from "@/app/ui/navbar";
 import { auth } from "@/auth";
 import Footer from "../ui/home/footer";
+import { Session } from "next-auth/types";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await auth();
+  const { user } = (await auth()) as Session;
   return (
     <SessionProvider>
       <Navbar user={user} />

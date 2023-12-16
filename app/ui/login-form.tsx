@@ -11,6 +11,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/app/lib/actions";
 
 export default function LoginForm() {
+  // @ts-ignore
   const [state, dispatch] = useFormState(authenticate, undefined);
 
   return (

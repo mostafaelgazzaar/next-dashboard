@@ -1,5 +1,5 @@
 "use server";
-import FullPage, { ParamType } from "@/app/ui/exams/fullpage";
+import FullPage from "@/app/ui/exams/fullpage";
 import { Suspense } from "react";
 import { fetchModules, fetchUsersModules } from "@/app/lib/data/modules-data";
 import { notFound } from "next/navigation";

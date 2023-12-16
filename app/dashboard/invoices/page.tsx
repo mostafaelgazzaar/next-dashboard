@@ -18,7 +18,13 @@ export default async function PagePage({
   };
 }) {
   const query = searchParams?.query || "";
-  const moduleId = +searchParams?.module || 1;
+  let moduleId;
+  if (searchParams && searchParams.module) {
+    moduleId = Number(searchParams.module);
+  } else {
+    moduleId = 1;
+  }
+
   const currentPage = Number(searchParams?.page) || 1;
 
   const usersWithPdfs = await getUserWithPdf(moduleId, currentPage);

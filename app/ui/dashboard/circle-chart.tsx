@@ -2,7 +2,13 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 
-export const CircleChart = ({ data, options }) => {
+export const CircleChart = ({
+  data,
+  options,
+}: {
+  data: [string, number | string][];
+  options: object;
+}) => {
   return (
     <div className="App">
       <Chart
