@@ -5,7 +5,6 @@ import { CreateInvoice } from "@/app/ui/invoices/buttons";
 import { lusitana } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
-import { fetchInvoicesPages } from "@/app/lib/data";
 import { getUserWithPdf, usersWithPdfPages } from "@/app/lib/data/modules-data";
 
 export default async function PagePage({
@@ -27,7 +26,6 @@ export default async function PagePage({
 
   const currentPage = Number(searchParams?.page) || 1;
 
-  const usersWithPdfs = await getUserWithPdf(moduleId, currentPage);
   const totalPages = await usersWithPdfPages(moduleId);
   return (
     <div className="w-full">

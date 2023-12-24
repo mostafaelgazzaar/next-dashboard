@@ -139,3 +139,27 @@ export type Pdf = {
   path: string;
   timestamp: string;
 };
+
+export type Choice = {
+  id: string;
+  text: string;
+  answer: boolean;
+};
+
+export type Question = {
+  choices: Choice[];
+  question: string;
+};
+
+export type Goal = {
+  goals: string[];
+};
+
+export type Module = {
+  id: number;
+  video: string;
+  title: string;
+  description: string;
+  questions: Question[];
+  goals: Goal;
+};

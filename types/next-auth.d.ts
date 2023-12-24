@@ -1,4 +1,3 @@
-import NextAuth from "next-auth";
 import { User } from "@/app/lib/definitions";
 
 declare module "next-auth" {

@@ -1,6 +1,5 @@
 "use client";
 
-import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import "react-awesome-slider/dist/custom-animations/cube-animation.css";
 import "react-awesome-slider/dist/custom-animations/fall-animation.css";
@@ -12,7 +11,7 @@ import TestComponent from "@/app/ui/exams/test-component";
 import FileUploader from "@/app/ui/exams/file-uploader";
 import { Rating } from "@/app/ui/exams/ratings";
 import { LikeButton } from "@/app/ui/exams/like-button";
-import { User } from "@/app/lib/definitions";
+import { User, UserModules } from "@/app/lib/definitions";
 
 import dynamic from "next/dynamic";
 import { postPlayedDuration } from "@/app/lib/actions/module-actions";
@@ -20,11 +19,23 @@ import { Tab } from "@headlessui/react";
 import { useState } from "react";
 import { ArrowUpIcon, VideoCameraIcon } from "@heroicons/react/20/solid";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
-const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
-export default function FullPage({ data, user }: { data: any; user: User }) {
-  const [selectedTab, setSelectedTab] = useState("Video");
+import CommentForm from "./comment-form";
+import { Module } from "@/app/lib/definitions";
+import ReactConfetti from "react-confetti";
 
-  const d = data;
+const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
+export default function FullPage({
+  data,
+  user,
+  userModule,
+}: {
+  data: any;
+  user: User;
+  userModule: UserModules;
+}) {
+  const [selectedTab, setSelectedTab] = useState("goals");
+  const d: Module = data;
+  const completed = userModule.completed;
   const handlePlayed = async (played: number): Promise<void> => {
     const duration = Math.round(played);
     await postPlayedDuration(duration, user.id);
@@ -32,44 +43,95 @@ export default function FullPage({ data, user }: { data: any; user: User }) {
 
   return (
     <div>
+      <div className="flex justify-center">
+        {completed && <ReactConfetti />}
+      </div>
       <Tab.Group>
         <Tab.List className="mb-5 flex list-none flex-row flex-wrap border-b-0 pl-0">
           <Tab
             as="button"
+            onClick={() => setSelectedTab("goals")}
+            className={`inline-block w-1/4 py-4 px-4 text-md font-medium text-center border-transparent border-b-2  ${
+              selectedTab === "goals"
+                ? " text-gray-900 border-b-blue-800"
+                : "text-gray-500 hover:text-gray-600 hover:border-gray-300"
+            } dark:text-gray-400 dark:hover:text-gray-300`}
+          >
+            الأهداف
+          </Tab>
+          <Tab
+            as="button"
             onClick={() => setSelectedTab("Video")}
-            className={`inline-block w-1/3 py-4 px-4 text-md font-medium text-center border-transparent border-b-2  ${
+            className={`inline-block w-1/4 py-4 px-4 text-md font-medium text-center border-transparent border-b-2  ${
               selectedTab === "Video"
                 ? " text-gray-900 border-b-blue-800"
                 : "text-gray-500 hover:text-gray-600 hover:border-gray-300"
             } dark:text-gray-400 dark:hover:text-gray-300`}
           >
-            Video & Review
-            <VideoCameraIcon className="inline-block w-5 h-5 ml-2 -mt-1" />
+            المحتوى
+            <VideoCameraIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
           </Tab>
           <Tab
             as="button"
             onClick={() => setSelectedTab("test")}
-            className={`inline-block w-1/3 py-4 px-4 text-md font-medium text-center border-transparent border-b-2 ${
+            className={`inline-block w-1/4 py-4 px-4 text-md font-medium text-center border-transparent border-b-2 ${
               selectedTab === "test"
                 ? "text-gray-900 border-b-blue-800 "
                 : "text-gray-500 hover:text-gray-600 hover:border-gray-300"
             } dark:text-gray-400 dark:hover:text-gray-300`}
           >
-            test <BookOpenIcon className="inline-block w-5 h-5 ml-2 -mt-1" />
+            الاختبار البنائي{" "}
+            <BookOpenIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
           </Tab>
           <Tab
             as="button"
             onClick={() => setSelectedTab("upload")}
-            className={`inline-block w-1/3 py-4 px-4 text-md  font-medium text-center border-transparent border-b-2  ${
+            className={`inline-block w-1/4 py-4 px-4 text-md  font-medium text-center border-transparent border-b-2  ${
               selectedTab === "upload"
                 ? "text-gray-900 border-b-blue-800 "
                 : "text-gray-500 hover:text-gray-600 hover:border-gray-300"
             } dark:text-gray-400 dark:hover:text-gray-300`}
           >
-            upload <ArrowUpIcon className="inline-block w-5 h-5 ml-2 -mt-1" />
+            الانشطة <ArrowUpIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
           </Tab>
         </Tab.List>
         <Tab.Panels>
+          <Tab.Panel>
+            <div className="flex justify-center">
+              {completed && (
+                <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white">
+                  مكتمل
+                </span>
+              )}
+              {!completed && (
+                <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-300 text-black">
+                  جاري التعلم
+                </span>
+              )}
+              {completed === undefined && (
+                <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white">
+                  لم يتم البدء
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col items-start w-full h-full">
+              <h3 className="text-3xl text-blue-500 mb-2 "> الهدف العام :</h3>
+              <h4 className="text-xl text-black mb-4 font-semibold">
+                {d.description}
+              </h4>
+              <hr className="w-full border-1 border-gray-200 my-4" />
+              <h3 className="text-3xl text-blue-500 mb-2">
+                الاهداف ألاجرائية :
+              </h3>
+              <ul className="list-disc list-inside 	 ">
+                {d.goals?.goals.map((goal: string, index) => (
+                  <li key={"index" + index} className="text-xl text-black mb-4">
+                    {goal}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Tab.Panel>
           <Tab.Panel>
             <div className="flex justify-center">
               <div key={d.id} className="container pr-10 pl-10 justify-center">
@@ -78,7 +140,7 @@ export default function FullPage({ data, user }: { data: any; user: User }) {
                   <ReactPlayer
                     url={d.video}
                     controls={true}
-                    playing={true}
+                    playing={false}
                     loop={true}
                     muted={true}
                     width={"100%"}
@@ -90,18 +152,29 @@ export default function FullPage({ data, user }: { data: any; user: User }) {
                   />
                 </div>
 
-                <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-2">
+                <section className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-2">
                   <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-                    Review this video
+                    رايك في المحتوى
                   </h5>
-                  <p className="mb-5 text-base text-gray-500 sm:text-lg dark:text-gray-400">
-                    once you have watched the video, please review it
-                    <LikeButton userId={user.id} moduleId={d.id} />
-                  </p>
-                  <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
-                    <Rating value={0} />
+
+                  <div className="divide-y divide-gray-400 w-30 m-2">
+                    <div className="  justify-center mt-2">
+                      <div className="mb-5 text-base text-gray-500 sm:text-lg dark:text-gray-400">
+                        بعد مشاهدة المحتوى يمكنك تقييمه وترك تعليق
+                      </div>
+
+                      <div className="flex justify-center">
+                        <LikeButton userId={user.id} moduleId={d.id} />
+                      </div>
+                    </div>
+
+                    <CommentForm moduleId={d.id} userId={user.id} />
+
+                    <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse mt-2">
+                      <Rating value={0} />
+                    </div>
                   </div>
-                </div>
+                </section>
               </div>
             </div>
           </Tab.Panel>

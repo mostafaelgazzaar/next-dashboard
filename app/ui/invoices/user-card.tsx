@@ -1,27 +1,30 @@
 "use client";
 import { User } from "@/app/lib/definitions";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 export default function UserCard({ user }: { user: User }) {
   return (
     <>
       <div className="max-w-xs bg-white shadow-lg rounded-lg overflow-hidden my-4 mx-2">
         <div className="flex justify-center px-6 ">
-          <img
-            className="h-150px"
+          <Image
+            className=""
             src="/student-svgrepo-com.png"
             alt="avatar"
+            width={150}
+            height={150}
           />
         </div>
 
         <div className="flex items-center px-6 py-3 bg-gray-900">
           <BookOpenIcon className="h-6 w-6 fill-current text-white" />
-          <h1 className="mx-3 text-white font-semibold text-lg">Learning</h1>
+          <h1 className="mx-3 text-white font-semibold text-lg">التعلم</h1>
         </div>
         <div className="py-4 px-6">
           <h1 className="text-2xl font-semibold text-gray-800">{user.name}</h1>
           <p className="py-2 text-lg text-gray-700">
-            {user.name} is a student at the faculty of engineering
+            {user.name}طالب بجامعة عين شمس
           </p>
           <div className="flex items-center mt-4 text-gray-700">
             <svg className="h-6 w-6 fill-current" viewBox="0 0 512 512">

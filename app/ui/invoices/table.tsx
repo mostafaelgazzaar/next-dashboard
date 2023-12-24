@@ -1,11 +1,6 @@
-import Image from "next/image";
-import { UpdateInvoice, DeleteInvoice } from "@/app/ui/invoices/buttons";
-import InvoiceStatus from "@/app/ui/invoices/status";
-import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
-import { fetchFilteredInvoices } from "@/app/lib/data";
+import { formatDateToLocal } from "@/app/lib/utils";
 import { getUserWithPdf } from "@/app/lib/data/modules-data";
 import { ArrowDownCircleIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
 
 export default async function InvoicesTable({
   query,

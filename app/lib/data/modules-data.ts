@@ -4,7 +4,7 @@ import { Pdf, User, UserModules } from "@/app/lib/definitions";
 const ITEMS_PER_PAGE = 6;
 export async function fetchModules() {
   try {
-    const data = await sql<Module>`SELECT * FROM modules`;
+    const data = await sql<Module>`SELECT * FROM modules order by id asc`;
 
     const modules = data.rows.map((module) => ({
       ...module,

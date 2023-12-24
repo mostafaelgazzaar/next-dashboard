@@ -24,7 +24,6 @@ export const { auth, signIn, signOut } = NextAuth({
           .safeParse(credentials);
         //@ts-ignore
         const { email, password } = parsedCredentials?.data;
-        const user = await getUser(email);
         if (parsedCredentials.success) {
           const user = await getUser(email);
           if (!user) {

@@ -11,7 +11,7 @@ import { State } from "@/app/lib/actions";
 const PASS_PERCENTAGE = 55;
 export async function addLike(user_id: string, module_id: number) {
   try {
-    const data = await sql<UserModules>`
+    await sql<UserModules>`
                 UPDATE user_modules SET added_likes = true WHERE user_id = ${user_id} AND module_id = ${module_id}
             `;
     const { percentage } = await checkUserCompletion(user_id, module_id);
@@ -25,6 +25,23 @@ export async function addLike(user_id: string, module_id: number) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch the modules.");
+  }
+}
+
+export async function addComment(prevState: State, formData: FormData) {
+  const moduleId = Number(formData?.get("moduleId"));
+  const userId = formData.get("userId")?.toString();
+  const comment = formData.get("comment")?.toString();
+  await sql<UserModules>`
+  UPDATE user_modules SET added_comments =${comment}  WHERE user_id = ${userId} AND module_id = ${moduleId}
+`;
+  const { percentage } = await checkUserCompletion(userId, moduleId);
+  if (percentage >= PASS_PERCENTAGE) {
+    let nextModule = moduleId + 1;
+    if (nextModule > 5) return;
+    await sql` 
+insert into user_modules (user_id, module_id, added_likes, added_comments, completed)
+  values (${userId}, ${nextModule}, false, null , false)`;
   }
 }
 
@@ -44,7 +61,7 @@ export async function updateExamResult(prevState: State, formData: FormData) {
     const moduleResult = await sql<ModuleResult>`
     select * from module_results where user_id = ${userId} AND module_id = ${moduleId}`;
     if (moduleResult.rows.length > 0) {
-      const data = await sql<UserTestAttempts>`
+      await sql<UserTestAttempts>`
         UPDATE module_results SET score = ${score} WHERE user_id = ${userId} AND module_id = ${moduleId}`;
     } else {
       await sql`
@@ -118,7 +135,7 @@ export async function checkUserCompletion(
     select * from user_performance where user_id = ${user_id}`;
 
   const userModulesQueryResult: QueryResult<UserModules> = await sql`
-    select * from user_modules where user_id = ${user_id}`;
+    select * from user_modules where user_id = ${user_id} AND  module_id = ${module_id}`;
 
   const userPdfQueryResult = await sql`
   select * from pdfs where user_id = ${user_id} AND module_id = ${module_id}`;
@@ -131,11 +148,11 @@ export async function checkUserCompletion(
   const userPdf = userPdfQueryResult.rows[0];
   const moduleResult = moduleResultsQueryResult.rows[0];
 
-  const addedLikes = userModules.added_likes;
+  const addedLikes = userModules?.added_likes || false;
   const addedPdf = !!userPdf;
-  const addedComments = userModules.added_comments;
+  const addedComments = userModules?.added_comments || "";
   const moduleResultScore = moduleResult?.score || 0;
-  const loginCount = userPerformance.login_count;
+  const loginCount = userPerformance?.login_count;
 
   if (addedLikes) percentage += 10;
   if (addedPdf) percentage += 20;
@@ -161,4 +178,14 @@ export async function checkUserCompletion(
     addedComments,
     moduleResultScore,
   };
+}
+
+export async function getUserModulesScore(user_id: string) {
+  try {
+    const data = await sql`
+  select module_id,score from module_results where user_id = ${user_id}`;
+    return data.rows;
+  } catch (error) {
+    throw new Error(`Failed to fetch from database: ${error}`);
+  }
 }

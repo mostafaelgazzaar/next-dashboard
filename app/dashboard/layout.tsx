@@ -1,5 +1,4 @@
 import SideNav from "@/app/ui/dashboard/sidenav";
-import { SessionProvider } from "next-auth/react";
 import Navbar from "@/app/ui/navbar";
 import { auth } from "@/auth";
 import Footer from "../ui/home/footer";
@@ -12,7 +11,7 @@ export default async function Layout({
 }) {
   const { user } = (await auth()) as Session;
   return (
-    <SessionProvider>
+    <>
       <Navbar user={user} />
       <div className="flex h-screen flex-col md:flex-row ">
         <div className="w-full flex-none md:w-64">
@@ -23,6 +22,6 @@ export default async function Layout({
           <Footer />
         </div>
       </div>
-    </SessionProvider>
+    </>
   );
 }

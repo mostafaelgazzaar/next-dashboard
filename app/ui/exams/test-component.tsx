@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { updateExamResult } from "@/app/lib/actions/module-actions";
 import { useFormState } from "react-dom";
 import { Button } from "@/app/ui/button";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 // @ts-ignore
 function shuffle(array) {
@@ -24,7 +25,7 @@ const TestComponent = ({ questions, moduleId, userId }) => {
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showNextButton, setShowNextButton] = useState(false);
-  const [iscomplete, setIsComplete] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   const startQuiz = () => {
     setCurrentQuestionIndex(0);
@@ -43,9 +44,7 @@ const TestComponent = ({ questions, moduleId, userId }) => {
     setChoices(shuffledChoices);
     // @ts-ignore
     setCorrectAnswer(
-      currentQuestion.choices.findIndex(
-        (choice: Choice) => choice.answer === true
-      )
+      currentQuestion.choices.findIndex((choice: Choice) => choice.answer),
     );
   };
 
@@ -85,7 +84,7 @@ const TestComponent = ({ questions, moduleId, userId }) => {
   const showScore = () => {
     resetState();
     setIsComplete(true);
-    setQuestionText(`You scored ${score} out of ${questions.length}!`);
+    setQuestionText(`لقد حصلت علي ${score} من ${questions.length}`);
   };
 
   useEffect(() => {
@@ -94,9 +93,11 @@ const TestComponent = ({ questions, moduleId, userId }) => {
 
   return (
     <div className="app">
-      <h1>Quiz</h1>
+      <h1 className="text-center">الاختبار</h1>
       <div className="quiz">
-        <h2 id="question">{questionText}</h2>
+        <h2 className="text-center" id="question">
+          {questionText}
+        </h2>
         <div id="answer-buttons">
           {choices.map((choice, index) => (
             <button
@@ -120,15 +121,26 @@ const TestComponent = ({ questions, moduleId, userId }) => {
         </div>
         {showNextButton && (
           <button id="next-button" onClick={handleNextButton}>
-            Next
+            التالي
           </button>
         )}
-        {iscomplete && (
-          <form action={dispatch}>
+        {isComplete && (
+          <form action={dispatch} className="flex justify-center mt-3">
             <input type="hidden" name="score" value={score} />
             <input type="hidden" name="moduleId" value={moduleId} />
             <input type="hidden" name="userId" value={userId} />
-            <Button type="submit">Submit</Button>
+            <Button type="submit"> تاكيد</Button>
+            <button
+              type="button"
+              className="flex items-center justify-center w-10 h-10 p-2 ml-2 text-green-400 bg-gray-100 rounded-full hover:text-green-500 hover:bg-gray-200 mr-3"
+              onClick={() => {
+                setIsComplete(false);
+                startQuiz();
+                showQuestion(0);
+              }}
+            >
+              <ArrowPathIcon className="w-6 h-6" />
+            </button>
           </form>
         )}
       </div>

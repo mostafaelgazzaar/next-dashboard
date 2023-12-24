@@ -1,9 +1,6 @@
-import Image from "next/image";
 import { lusitana } from "@/app/ui/fonts";
 import Search from "@/app/ui/search";
-import { User } from "@/app/lib/definitions";
 import { filteredUsers } from "@/app/lib/data/dashboard-data";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 
 export default async function UsersTable({

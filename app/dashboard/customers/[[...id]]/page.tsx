@@ -1,16 +1,31 @@
 import { CircleChart } from "@/app/ui/dashboard/circle-chart";
 import { auth } from "@/auth";
 import { getUserPerformance } from "@/app/lib/data/dashboard-data";
-import { useSearchParams } from "next/navigation";
-import { checkUserCompletion } from "@/app/lib/actions/module-actions";
+import {
+  checkUserCompletion,
+  getUserModulesScore,
+} from "@/app/lib/actions/module-actions";
 import UserCard from "@/app/ui/invoices/user-card";
 import { User } from "@/app/lib/definitions";
 import { Rating } from "@/app/ui/exams/ratings";
+import PerformanceTable, {
+  PerformanceData,
+} from "@/app/ui/dashboard/performance-table";
+import LineChart from "@/app/ui/dashboard/line-chart";
+import Dropdown from "@/app/ui/dashboard/dropdown";
 
 // eslint-disable-next-line @next/next/no-async-client-component
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: { module: string };
+}) {
   let userParams = params?.id;
-  const moduleId: number = 1;
+  console.log(searchParams);
+  const moduleId: number = searchParams?.module ? +searchParams?.module : 1;
+  console.log(moduleId);
   let userId = userParams?.[0];
   const session = await auth();
   const user = session?.user as User;
@@ -21,49 +36,86 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { percentage, addedPdf, addedLikes, addedComments, moduleResultScore } =
     await checkUserCompletion(userId, moduleId);
   const ratingValue = percentage / 10;
+  const userModulesScore = await getUserModulesScore(userId);
 
-  const data: [string, number | string][] = [
-    ["Task", "User Activity"],
+  const performanceData: PerformanceData = {
+    addedComments,
+    addedLikes,
+    addedPdf,
+    moduleResultScore,
+  };
+
+  const data: [string, string | number][] = [
+    ["Task", "انشطة المستخدم"],
     [
-      "Time on Platform",
+      "الوقت علي النظام",
       Math.round(userPerformance.time_on_platform_seconds / 60),
     ],
     [
-      "Time Watching Videos",
+      " وقت مشاهدة المحتوي",
       Math.round(userPerformance.time_watching_videos_seconds / 60),
     ],
-    ["Interactions", userPerformance.interactions_count],
-    ["Test Attempts", userPerformance.test_attempts_count],
-    ["Average Test Score", userPerformance.average_test_score / 4],
+    ["التفاعل", userPerformance.interactions_count],
+    ["عدد المحاولات ", userPerformance.test_attempts_count],
+    ["متوسط نتيجة الاختبار", userPerformance.average_test_score / 4],
   ];
 
   const options = {
-    title: "The User Activity",
+    title: "مستويات تفاعل الطالب ",
   };
+
+  const lineChartTitle = ["الموديل", "النتيجة"];
+  const lineChartData: [number, number][] = userModulesScore.map((module) => [
+    module.module_id,
+    module.score,
+  ]);
 
   return (
     <>
-      <h1 className="text-3xl font-semibold text-gray-900">User Performance</h1>
-      <div className="flex justify-between">
+      <h1 className="text-3xl font-semibold text-gray-900">
+        أداء الطالب الكلي{" "}
+      </h1>
+      <Dropdown />
+      <div className="flex justify-between ">
         {user?.env === "LOW" && (
-          <div className="mt-5 ml-20">
-            <p className="text-center text-2xl ">You are in low env </p>
+          <div className="mt-5 w-2/3  justify-center">
+            <p className="text-center text-2xl ">
+              انت الان في بيئة التعليم المنخفض{" "}
+            </p>
             <p className="text-xl text-center">
-              You have completed
+              لقد حصلا علي نسبة مئوية قدرها
               <span className=" text-2xl text-green-500 px-2">
                 {percentage}%
               </span>{" "}
-              of the module
+              في هذا المحتوي
             </p>
-            <Rating value={ratingValue} />
+
+            <div className="flex justify-center mt-5">
+              <Rating value={+ratingValue / 2} />
+            </div>
           </div>
         )}
-        {user?.env === "HIGH" && (
-          <div className="mt-5">
-            <CircleChart data={data} options={options}></CircleChart>;
-          </div>
+        {(user?.env === "HIGH" || user.env === "MIDDLE") && (
+          <section className="mt-5 ml-1 w-3/4">
+            <CircleChart data={data} options={options}></CircleChart>
+            <hr className="text-gray-500 text-3xl my-3" />
+            <LineChart title={lineChartTitle} data={lineChartData} />
+            <hr className="text-gray-500 text-3xl my-3" />
+            <div>
+              <PerformanceTable
+                data={performanceData}
+                moduleId={moduleId}
+                withDetails={user.env === "HIGH"}
+              />
+            </div>
+            <hr className="text-gray-500 text-3xl my-3" />
+
+            <div className="grid place-items-center">
+              <p className="block"> Your overall rating is </p>
+              <Rating value={+ratingValue / 2} />
+            </div>
+          </section>
         )}
-        <div></div>
         <div className="">
           <UserCard user={user} />
         </div>

@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import { fetchModules, fetchUsersModules } from "@/app/lib/data/modules-data";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
-
 export default async function Page({ params }: { params: { id: number } }) {
   // @ts-ignore
   const { user } = await auth();
@@ -23,7 +22,7 @@ export default async function Page({ params }: { params: { id: number } }) {
   return (
     <div>
       <Suspense>
-        <FullPage data={pageModule} user={user} />
+        <FullPage data={pageModule} user={user} userModule={userModule} />
       </Suspense>
     </div>
   );

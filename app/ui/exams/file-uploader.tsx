@@ -1,6 +1,4 @@
 "use client";
-
-import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import "./file-uploader.css";
 
@@ -9,9 +7,8 @@ export default function FileUploader({
   moduleId,
 }: {
   userId: string;
-  moduleId: string;
+  moduleId: number;
 }) {
-  const [imageUrl, setImageUrl] = useState("/images/placeholder-image.jpg");
   const onImageFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
 
@@ -30,7 +27,7 @@ export default function FileUploader({
     const formData = new FormData();
     formData.append("file", file);
     formData.append("userId", userId);
-    formData.append("moduleId", moduleId);
+    formData.append("moduleId", moduleId.toString());
 
     try {
       const res = await fetch("/api/upload", {

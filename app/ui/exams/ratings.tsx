@@ -7,7 +7,6 @@ import { Rating as ReactRating } from "@smastrom/react-rating";
 
 export function Rating({ value }: { value: number }) {
   if (!value) value = 0;
-
   const [rating, setRating] = useState(value);
 
   return (
