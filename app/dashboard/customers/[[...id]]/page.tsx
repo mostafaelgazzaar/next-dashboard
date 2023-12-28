@@ -13,6 +13,9 @@ import PerformanceTable, {
 } from "@/app/ui/dashboard/performance-table";
 import LineChart from "@/app/ui/dashboard/line-chart";
 import Dropdown from "@/app/ui/dashboard/dropdown";
+import { getUser, getUserById } from "@/app/lib/data";
+import { fetchModuleById } from "@/app/lib/data/modules-data";
+import { LineChartV2 } from "@/app/ui/dashboard/point-line-chart";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Page({
@@ -23,18 +26,24 @@ export default async function Page({
   searchParams: { module: string };
 }) {
   let userParams = params?.id;
-  console.log(searchParams);
   const moduleId: number = searchParams?.module ? +searchParams?.module : 1;
-  console.log(moduleId);
   let userId = userParams?.[0];
   const session = await auth();
   const user = session?.user as User;
   if (!userId) {
     if (user?.id) userId = user?.id;
   }
+  const cardUser = await getUserById(userId);
   const userPerformance = await getUserPerformance(userId);
-  const { percentage, addedPdf, addedLikes, addedComments, moduleResultScore } =
-    await checkUserCompletion(userId, moduleId);
+  const selectedModule = await fetchModuleById(moduleId);
+  const {
+    percentage,
+    addedPdf,
+    addedLikes,
+    addedComments,
+    moduleResultScore,
+    watchedDuration,
+  } = await checkUserCompletion(userId, moduleId);
   const ratingValue = percentage / 10;
   const userModulesScore = await getUserModulesScore(userId);
 
@@ -43,6 +52,9 @@ export default async function Page({
     addedLikes,
     addedPdf,
     moduleResultScore,
+    watchedDuration,
+    enhanceUrl: selectedModule?.enhance_url,
+    moduleDuration: selectedModule?.duration,
   };
 
   const data: [string, string | number][] = [
@@ -95,11 +107,12 @@ export default async function Page({
             </div>
           </div>
         )}
-        {(user?.env === "HIGH" || user.env === "MIDDLE") && (
+        {(user?.env === "HIGH" || user.env === "MEDIUM") && (
           <section className="mt-5 ml-1 w-3/4">
             <CircleChart data={data} options={options}></CircleChart>
             <hr className="text-gray-500 text-3xl my-3" />
-            <LineChart title={lineChartTitle} data={lineChartData} />
+
+            <LineChartV2 title={lineChartTitle} data={lineChartData} />
             <hr className="text-gray-500 text-3xl my-3" />
             <div>
               <PerformanceTable
@@ -111,13 +124,13 @@ export default async function Page({
             <hr className="text-gray-500 text-3xl my-3" />
 
             <div className="grid place-items-center">
-              <p className="block"> Your overall rating is </p>
+              <p className="block"> تقيمك الحالي هو </p>
               <Rating value={+ratingValue / 2} />
             </div>
           </section>
         )}
         <div className="">
-          <UserCard user={user} />
+          <UserCard user={cardUser} />
         </div>
       </div>
     </>

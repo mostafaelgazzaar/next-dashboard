@@ -7,10 +7,10 @@ export default function Page() {
   return (
     <main>
       <Banner />
-      <Companies />
+      {/*<Companies />*/}
       <MainSection />
       {/*<Quote />*/}
-      <FrequentQuestions />
+      {/*<FrequentQuestions />*/}
     </main>
   );
 }

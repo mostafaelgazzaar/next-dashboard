@@ -49,11 +49,12 @@
     width: 100%;
     border: 1px solid #222;
     padding:10px;
-    margin:10px;
     text-align: left;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s;
+    display: flex;
+    margin: 10px auto 10px 10px;
 }
 
 .btn:hover:not([disabled]){

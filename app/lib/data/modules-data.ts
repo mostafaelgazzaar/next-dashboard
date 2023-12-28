@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Pdf, User, UserModules } from "@/app/lib/definitions";
+import { Pdf, User, UserModules, Module } from "@/app/lib/definitions";
 
 const ITEMS_PER_PAGE = 6;
 export async function fetchModules() {
@@ -10,6 +10,17 @@ export async function fetchModules() {
       ...module,
     }));
     return modules;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
+  }
+}
+export async function fetchModuleById(id: number) {
+  try {
+    const data = await sql<Module>`
+            SELECT * FROM modules WHERE id = ${id}
+        `;
+    return data.rows[0];
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch the modules.");
@@ -58,10 +69,11 @@ export async function usersWithPdfPages(moduleId: number) {
   const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
   return totalPages;
 }
-export type Module = {
-  id: string;
-  video: string;
-  title: string;
-  description: string;
-  questions: string; // Assuming questions is stored as a JSON string in the database
-};
+// export type Module = {
+//   id: string;
+//   video: string;
+//   title: string;
+//   description: string;
+//   questions: string;
+//   assignment_title: string;
+// };

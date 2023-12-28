@@ -5,15 +5,17 @@ import "./file-uploader.css";
 export default function FileUploader({
   userId,
   moduleId,
+  title,
 }: {
   userId: string;
   moduleId: number;
+  title: string;
 }) {
   const onImageFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
 
     if (!fileInput.files) {
-      console.warn("no file was chosen");
+      console.warn("لم يتم اختيار الملف");
       return;
     }
 
@@ -41,7 +43,6 @@ export default function FileUploader({
       }
 
       const data: { fileUrl: string } = await res.json();
-      console.log(data);
     } catch (error) {
       console.error("something went wrong, check your console.");
     }
@@ -54,10 +55,11 @@ export default function FileUploader({
   return (
     <fieldset className="block">
       <label className="block">
-        <legend>please deploy your PDF exercise</legend>
+        <legend className="text-xl text-center font-semibold mt-3">
+          {title}
+        </legend>
         <hr className="mt-2 mb-4" />
-
-        <span className="sr-only">Choose Files</span>
+        <span className="sr-only">من فضلك اختار الملف</span>
         <input
           className="block w-full text-sm text-slate-500
       file:mr-4 file:py-2 file:px-4
@@ -68,6 +70,7 @@ export default function FileUploader({
     "
           type="file"
           onChange={onImageFileChange}
+          placeholder="اختر الملف"
         />
       </label>
     </fieldset>

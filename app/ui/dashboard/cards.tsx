@@ -6,6 +6,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { lusitana } from "@/app/ui/fonts";
 import { fetchCardData } from "@/app/lib/data";
+import { ENVIROMENT } from "@/app/lib/enums/dashboard";
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -15,12 +16,26 @@ const iconMap = {
 };
 
 export default async function CardWrapper() {
-  const { numberOfUsers, moduleCounts } = await fetchCardData();
+  const { numberOfUsers, moduleCounts, envCountsData } = await fetchCardData();
 
   return (
     <>
-      <Card title="Total modules" value={moduleCounts} type="invoices" />
-      <Card title="Total Users" value={numberOfUsers} type="customers" />
+      <Card title="عدد الموديولات " value={moduleCounts} type="invoices" />
+      <Card title=" عدد المستخدمين" value={numberOfUsers} type="customers" />
+      {envCountsData.map((envCountData) => (
+        <Card
+          key={envCountData.env}
+          title={
+            envCountData.env === ENVIROMENT.low
+              ? "الطلبة بالمستوي المنخفض"
+              : envCountData.env === ENVIROMENT.medium
+              ? "الطلبة بالمستوي المتوسط"
+              : "الطلبة بالمستوي العالي"
+          }
+          value={envCountData.count}
+          type="customers"
+        />
+      ))}
     </>
   );
 }
@@ -40,7 +55,7 @@ export function Card({
     <div className="rounded-xl bg-gray-50 p-2 shadow-sm">
       <div className="flex p-4">
         {Icon ? <Icon className="h-5 w-5 text-gray-700" /> : null}
-        <h3 className="ml-2 text-sm font-medium">{title}</h3>
+        <h3 className="mr-2 text-sm font-medium">{title}</h3>
       </div>
       <p
         className={`${lusitana.className}

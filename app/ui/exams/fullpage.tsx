@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import "react-awesome-slider/dist/styles.css";
 import "react-awesome-slider/dist/custom-animations/cube-animation.css";
 import "react-awesome-slider/dist/custom-animations/fall-animation.css";
@@ -14,15 +14,19 @@ import { LikeButton } from "@/app/ui/exams/like-button";
 import { User, UserModules } from "@/app/lib/definitions";
 
 import dynamic from "next/dynamic";
-import { postPlayedDuration } from "@/app/lib/actions/module-actions";
+import {
+  postPlayedDuration,
+  updateModuleWatchedDuration,
+} from "@/app/lib/actions/module-actions";
 import { Tab } from "@headlessui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowUpIcon, VideoCameraIcon } from "@heroicons/react/20/solid";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import CommentForm from "./comment-form";
 import { Module } from "@/app/lib/definitions";
 import ReactConfetti from "react-confetti";
 
+import Duration from "@/app/ui/exams/duration";
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 export default function FullPage({
   data,
@@ -36,9 +40,12 @@ export default function FullPage({
   const [selectedTab, setSelectedTab] = useState("goals");
   const d: Module = data;
   const completed = userModule.completed;
+  const addedLikes = userModule.added_likes || userModule.added_dislike;
   const handlePlayed = async (played: number): Promise<void> => {
     const duration = Math.round(played);
+    if (duration <= userModule.watched_duration) return;
     await postPlayedDuration(duration, user.id);
+    await updateModuleWatchedDuration(duration, d.id, user.id, d.duration);
   };
 
   return (
@@ -136,6 +143,8 @@ export default function FullPage({
             <div className="flex justify-center">
               <div key={d.id} className="container pr-10 pl-10 justify-center">
                 <h1 className=" text-center italic m-4 text-2xl">{d.title}</h1>
+                <Duration time={userModule.watched_duration} />
+
                 <div className="flex place-content-center">
                   <ReactPlayer
                     url={d.video}
@@ -145,7 +154,7 @@ export default function FullPage({
                     muted={true}
                     width={"100%"}
                     height={550}
-                    progressInterval={15000}
+                    progressInterval={25000}
                     onProgress={async (state) => {
                       await handlePlayed(state.playedSeconds);
                     }}
@@ -163,9 +172,18 @@ export default function FullPage({
                         بعد مشاهدة المحتوى يمكنك تقييمه وترك تعليق
                       </div>
 
-                      <div className="flex justify-center">
-                        <LikeButton userId={user.id} moduleId={d.id} />
-                      </div>
+                      {!addedLikes && (
+                        <div className="flex justify-center">
+                          <LikeButton userId={user.id} moduleId={d.id} />
+                        </div>
+                      )}
+                      {addedLikes && (
+                        <div className="flex justify-center">
+                          <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white">
+                            تم التفاعل مع المحتوى
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <CommentForm moduleId={d.id} userId={user.id} />
@@ -189,7 +207,11 @@ export default function FullPage({
           </Tab.Panel>
           <Tab.Panel>
             <div>
-              <FileUploader moduleId={d.id} userId={user.id} />
+              <FileUploader
+                moduleId={d.id}
+                userId={user.id}
+                title={d.assignment_title}
+              />
             </div>
           </Tab.Panel>
         </Tab.Panels>

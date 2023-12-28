@@ -10,14 +10,12 @@ export const CircleChart = ({
   options: object;
 }) => {
   return (
-    <div className="App">
-      <Chart
-        chartType="PieChart"
-        width="100%"
-        height="400px"
-        data={data}
-        options={options}
-      />
-    </div>
+    <Chart
+      chartType="PieChart"
+      width="100%"
+      height="400px"
+      data={data}
+      options={options}
+    />
   );
 };

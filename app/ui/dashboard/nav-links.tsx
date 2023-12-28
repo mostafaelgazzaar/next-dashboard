@@ -28,8 +28,15 @@ export default function NavLinks({
   const isAdmin = user?.role === "ADMIN";
   const links = [
     {
-      name: "الصفحة الرئيسية & التعليمات",
+      name: "الصفحة الرئيسية",
       href: "/dashboard/home",
+      icon: MapIcon,
+      expandable: false,
+      visible: !isAdmin,
+    },
+    {
+      name: "التعليمات",
+      href: "/dashboard/information",
       icon: MapIcon,
       expandable: false,
       visible: !isAdmin,
@@ -148,10 +155,7 @@ export default function NavLinks({
                     <span className="text-yellow-600">(غير مكتمل)</span>
                   )}
                   {subLink.status === undefined && (
-                    <span className="text-red-600">
-                      {" "}
-                      <XMarkIcon className="w-4 h-4 inline-flex m-2" />
-                    </span>
+                    <span className="text-red-600"> (مغلق)</span>
                   )}
                 </Link>
               ))}
@@ -163,7 +167,7 @@ export default function NavLinks({
   );
 }
 
-function numberToName(num: number) {
+export function numberToName(num: number) {
   switch (num) {
     case 1:
       return "الموديول الأول";

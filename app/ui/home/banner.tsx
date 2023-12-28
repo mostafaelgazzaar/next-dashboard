@@ -1,5 +1,7 @@
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { ChartBarIcon } from "@heroicons/react/20/solid";
+import IntroImage from "../../../public/images/intro.jpeg";
 
 export default function Banner() {
   return (
@@ -16,16 +18,17 @@ export default function Banner() {
           <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
             <a
               href="/dashboard/exams/1"
-              className="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+              className=" ml-3 inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
             >
-              <PencilSquareIcon className="w-5 h-5 mr-2" />
-              التوجه للاختبار
+              <PencilSquareIcon className="w-5 h-5 ml-2" />
+              التوجة لدراسة المحتوي
             </a>
             <a
-              href="/dashboard/customers"
+              href="/dashboard/information"
               className="inline-flex items-center justify-center w-full px-5 py-3 mb-2 mr-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:w-auto focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
             >
-              التوجه للنتائج
+              <ChartBarIcon className="w-5 h-5 ml-2" />
+              التوجة الي التعليمات{" "}
             </a>
           </div>
         </div>
@@ -34,8 +37,8 @@ export default function Banner() {
             width={500}
             height={500}
             className="object-cover w-full h-full rounded-lg"
-            src="/hero.png"
-            alt="hero image"
+            src={IntroImage}
+            alt="intro image"
           />
         </div>
       </div>

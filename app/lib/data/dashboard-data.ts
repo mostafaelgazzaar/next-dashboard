@@ -1,5 +1,10 @@
 import { QueryResult, sql } from "@vercel/postgres";
-import { User, UserPerformance } from "@/app/lib/definitions";
+import {
+  Module,
+  ModuleStatistics,
+  User,
+  UserPerformance,
+} from "@/app/lib/definitions";
 import { unstable_noStore as noStore } from "next/cache";
 
 const ITEMS_PER_PAGE = 6;
@@ -31,4 +36,31 @@ export async function filteredUsers(query: string, currentPage: number) {
     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}`;
 
   return rows.rows;
+}
+
+export async function getModulesStatistics() {
+  const rows: QueryResult<ModuleStatistics> = await sql`
+        select count(user_id) as count,module_id,completed from user_modules
+        group by module_id,completed`;
+
+  const modulesStats = rows.rows;
+  const modules: QueryResult<Module> =
+    await sql`select id,title,video from modules order by id asc`;
+  const modulesData = modules.rows;
+  return modulesData.map((module) => {
+    const completed = modulesStats.find(
+      (moduleStats) =>
+        moduleStats.module_id === module.id && moduleStats.completed === true,
+    );
+    const notCompleted = modulesStats.find(
+      (moduleStats) =>
+        moduleStats.module_id === module.id && moduleStats.completed === false,
+    );
+
+    return {
+      ...module,
+      completed: completed?.count ?? 0,
+      notCompleted: notCompleted?.count ?? 0,
+    };
+  });
 }

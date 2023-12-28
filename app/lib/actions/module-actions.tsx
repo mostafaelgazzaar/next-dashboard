@@ -2,6 +2,7 @@
 import { QueryResult, sql } from "@vercel/postgres";
 import {
   ModuleResult,
+  Pdf,
   UserModules,
   UserPerformance,
   UserTestAttempts,
@@ -13,6 +14,17 @@ export async function addLike(user_id: string, module_id: number) {
   try {
     await sql<UserModules>`
                 UPDATE user_modules SET added_likes = true WHERE user_id = ${user_id} AND module_id = ${module_id}
+            `;
+    await handleOpenNextModule(user_id, module_id);
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
+  }
+}
+export async function addDislike(user_id: string, module_id: number) {
+  try {
+    await sql<UserModules>`
+                UPDATE user_modules SET added_dislike = true WHERE user_id = ${user_id} AND module_id = ${module_id}
             `;
     const { percentage } = await checkUserCompletion(user_id, module_id);
     if (percentage >= PASS_PERCENTAGE) {
@@ -86,6 +98,7 @@ export async function updateExamResult(prevState: State, formData: FormData) {
             `;
     }
     const { percentage } = await checkUserCompletion(userId, moduleId);
+    console.log("percentage", percentage);
     if (percentage >= PASS_PERCENTAGE) {
       let nextModule = moduleId + 1;
       if (nextModule > 5) return;
@@ -114,7 +127,33 @@ export async function postPlayedDuration(duration: number, userId: string) {
     throw new Error("Failed to fetch the modules.");
   }
 }
+export async function updateModuleWatchedDuration(
+  duration: number,
+  moduleId: number,
+  userId: string,
+  totalDuration: number,
+) {
+  try {
+    await sql`
+                 UPDATE user_modules SET watched_duration = ${duration} WHERE user_id = ${userId} AND module_id = ${moduleId}
+                `;
 
+    const durationCheckPoint = totalDuration / 2;
+    if (duration >= durationCheckPoint) {
+      const { percentage } = await checkUserCompletion(userId, moduleId);
+      if (percentage >= PASS_PERCENTAGE) {
+        let nextModule = moduleId + 1;
+        if (nextModule > 5) return;
+        await sql` 
+        insert into user_modules (user_id, module_id, added_likes, added_comments, completed)
+                values (${userId}, ${moduleId}, false, null , false)`;
+      }
+    }
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
+  }
+}
 export async function getUserTestTempts(
   user_id: string | undefined,
   module_id: number | null,
@@ -130,54 +169,78 @@ export async function checkUserCompletion(
   user_id: string | undefined,
   module_id: number,
 ) {
-  let percentage = 0;
-  const userPerformanceQueryResult: QueryResult<UserPerformance> = await sql`
+  try {
+    let percentage = 0;
+    const userPdfQueryResult: QueryResult<Pdf> = await sql`
+        select * from pdfs where user_id = ${user_id} AND module_id = ${module_id}`;
+
+    const userPerformanceQueryResult: QueryResult<UserPerformance> = await sql`
     select * from user_performance where user_id = ${user_id}`;
 
-  const userModulesQueryResult: QueryResult<UserModules> = await sql`
+    const userModulesQueryResult: QueryResult<UserModules> = await sql`
     select * from user_modules where user_id = ${user_id} AND  module_id = ${module_id}`;
 
-  const userPdfQueryResult = await sql`
-  select * from pdfs where user_id = ${user_id} AND module_id = ${module_id}`;
-
-  const moduleResultsQueryResult: QueryResult<ModuleResult> = await sql`
+    const moduleResultsQueryResult: QueryResult<ModuleResult> = await sql`
     select * from module_results where user_id = ${user_id} AND module_id = ${module_id}`;
 
-  const userPerformance = userPerformanceQueryResult.rows[0];
-  const userModules = userModulesQueryResult.rows[0];
-  const userPdf = userPdfQueryResult.rows[0];
-  const moduleResult = moduleResultsQueryResult.rows[0];
+    const moduleData = await sql`
+    select duration from modules where id = ${module_id}`;
 
-  const addedLikes = userModules?.added_likes || false;
-  const addedPdf = !!userPdf;
-  const addedComments = userModules?.added_comments || "";
-  const moduleResultScore = moduleResult?.score || 0;
-  const loginCount = userPerformance?.login_count;
+    const userPerformance = userPerformanceQueryResult.rows[0];
+    const userModules = userModulesQueryResult.rows[0];
+    const userPdf = userPdfQueryResult.rows[0];
+    const moduleResult = moduleResultsQueryResult.rows[0];
+    const moduleDuration = moduleData.rows[0].duration;
 
-  if (addedLikes) percentage += 10;
-  if (addedPdf) percentage += 20;
-  if (addedComments) percentage += 10;
-  if (loginCount === 1) {
-    percentage += 5;
-  } else if (loginCount === 2) {
-    percentage += 10;
-  } else if (loginCount > 3) {
-    percentage += 20;
+    const addedLikes = userModules?.added_likes || false;
+    const addedDislikes = userModules?.added_dislike || false;
+    const addedPdf = !!userPdf;
+    const addedComments = userModules?.added_comments || "";
+    const moduleResultScore = moduleResult?.score || 0;
+    const loginCount = userPerformance?.login_count || 0;
+    const watchedDuration = userModules?.watched_duration || 0;
+
+    console.log(
+      addedDislikes,
+      addedLikes,
+      addedPdf,
+      addedComments,
+      moduleResultScore,
+      loginCount,
+      watchedDuration,
+      moduleDuration,
+    );
+    if (watchedDuration >= moduleDuration / 2) {
+      percentage += 10;
+    }
+    if (addedLikes || addedDislikes) percentage += 10;
+    if (addedPdf) percentage += 20;
+    if (addedComments) percentage += 10;
+    if (loginCount === 1) {
+      percentage += 5;
+    } else if (loginCount === 2) {
+      percentage += 10;
+    } else if (loginCount > 3) {
+      percentage += 20;
+    }
+    if (moduleResultScore === 5) {
+      percentage += 40;
+    } else {
+      percentage += moduleResultScore * 10;
+    }
+
+    return {
+      percentage,
+      addedLikes,
+      addedPdf,
+      addedComments,
+      moduleResultScore,
+      watchedDuration,
+    };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
   }
-  // if score will max be 5 calculte the percentage to be increase by max 40%
-  if (moduleResultScore === 5) {
-    percentage += 40;
-  } else {
-    percentage += moduleResultScore * 10;
-  }
-
-  return {
-    percentage,
-    addedLikes,
-    addedPdf,
-    addedComments,
-    moduleResultScore,
-  };
 }
 
 export async function getUserModulesScore(user_id: string) {
@@ -187,5 +250,21 @@ export async function getUserModulesScore(user_id: string) {
     return data.rows;
   } catch (error) {
     throw new Error(`Failed to fetch from database: ${error}`);
+  }
+}
+
+export async function handleOpenNextModule(userId: string, moduleId: number) {
+  try {
+    const { percentage } = await checkUserCompletion(userId, moduleId);
+    if (percentage >= PASS_PERCENTAGE) {
+      let nextModule = moduleId + 1;
+      if (nextModule > 5) return;
+      await sql`
+        insert into user_modules (user_id, module_id, added_likes, added_comments, completed)
+                values (${userId}, ${nextModule}, false, null , false)`;
+    }
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
   }
 }

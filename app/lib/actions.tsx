@@ -4,6 +4,7 @@ import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
+import { handleOpenNextModule } from "@/app/lib/actions/module-actions";
 const FormDataSchema = z.object({
   id: z.string(),
   customerId: z.string({
@@ -96,15 +97,17 @@ export async function authenticate(
   formData: FormData,
 ) {
   try {
-    console.log(formData);
     await signIn("credentials", {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     });
   } catch (error) {
-    if ((error as Error).message.includes("CredentialsSignin")) {
-      return "CredentialsSignin";
+    if (error instanceof Error) {
+      if (error.toString().includes("CredentialsSignin:")) {
+        return "CredentialsSignin";
+      }
     }
+
     throw error;
   }
 }
@@ -114,7 +117,6 @@ export async function updatePdf(
   module_id: number,
 ) {
   try {
-    console.log(user_id);
     const pdfData = await sql`
         SELECT * FROM pdfs WHERE user_id = ${user_id} AND module_id = ${module_id}
         `;
@@ -127,8 +129,8 @@ export async function updatePdf(
             INSERT INTO pdfs  (user_id, module_id, path) VALUES (${user_id}, ${module_id}, ${url})
             `;
     }
+    await handleOpenNextModule(user_id, module_id);
   } catch (e) {
-    console.log(e);
     return { message: "Error updating invoice" };
   }
 }

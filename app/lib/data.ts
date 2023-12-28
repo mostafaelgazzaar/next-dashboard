@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+import { QueryResult, sql } from "@vercel/postgres";
 import {
   CustomerField,
   CustomersTable,
@@ -7,6 +7,7 @@ import {
   LatestInvoiceRaw,
   User,
   Revenue,
+  ModuleEnvCounts,
 } from "./definitions";
 import { formatCurrency } from "./utils";
 import { unstable_noStore as noStore } from "next/cache";
@@ -62,13 +63,22 @@ export async function fetchCardData() {
     noStore();
     const invoiceCountPromise = sql`SELECT COUNT(*) FROM modules`;
     const customerCountPromise = sql`SELECT COUNT(*) FROM users`;
+    const envCounts: Promise<
+      QueryResult<ModuleEnvCounts>
+    > = sql` select count(id),env from users where role='STUDENT' group by env`;
 
-    const data = await Promise.all([invoiceCountPromise, customerCountPromise]);
-    const moduleCounts = Number(data[0].rows[0].count ?? "0");
-    const numberOfUsers = Number(data[1].rows[0].count ?? "0");
+    const data = await Promise.all([
+      invoiceCountPromise,
+      customerCountPromise,
+      envCounts,
+    ]);
+    const moduleCounts = Number(data[0].rows[0].count ?? 0);
+    const numberOfUsers = Number(data[1].rows[0].count ?? 0);
+    const envCountsData = data[2].rows;
     return {
       numberOfUsers,
       moduleCounts,
+      envCountsData,
     };
   } catch (error) {
     console.error("Database Error:", error);
@@ -77,62 +87,6 @@ export async function fetchCardData() {
 }
 
 const ITEMS_PER_PAGE = 6;
-export async function fetchFilteredInvoices(
-  query: string,
-  currentPage: number,
-) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
-  try {
-    noStore();
-    const invoices = await sql<InvoicesTable>`
-      SELECT
-        invoices.id,
-        invoices.amount,
-        invoices.date,
-        invoices.status,
-        customers.name,
-        customers.email,
-        customers.image_url
-      FROM invoices
-      JOIN customers ON invoices.customer_id = customers.id
-      WHERE
-        customers.name ILIKE ${`%${query}%`} OR
-        customers.email ILIKE ${`%${query}%`} OR
-        invoices.amount::text ILIKE ${`%${query}%`} OR
-        invoices.date::text ILIKE ${`%${query}%`} OR
-        invoices.status ILIKE ${`%${query}%`}
-      ORDER BY invoices.date DESC
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-    `;
-
-    return invoices.rows;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch invoices.");
-  }
-}
-
-export async function fetchInvoicesPages(query: string) {
-  try {
-    const count = await sql`SELECT COUNT(*)
-    FROM invoices
-    JOIN customers ON invoices.customer_id = customers.id
-    WHERE
-      customers.name ILIKE ${`%${query}%`} OR
-      customers.email ILIKE ${`%${query}%`} OR
-      invoices.amount::text ILIKE ${`%${query}%`} OR
-      invoices.date::text ILIKE ${`%${query}%`} OR
-      invoices.status ILIKE ${`%${query}%`}
-  `;
-
-    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-    return totalPages;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch total number of invoices.");
-  }
-}
 
 export async function fetchInvoiceById(id: string) {
   try {
@@ -212,6 +166,16 @@ export async function fetchFilteredCustomers(query: string) {
 export async function getUser(email: string) {
   try {
     const user = await sql`SELECT * from USERS where email=${email}`;
+    return user.rows[0] as User;
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    throw new Error("Failed to fetch user.");
+  }
+}
+
+export async function getUserById(id: string) {
+  try {
+    const user = await sql`SELECT * from USERS where id=${id}`;
     return user.rows[0] as User;
   } catch (error) {
     console.error("Failed to fetch user:", error);

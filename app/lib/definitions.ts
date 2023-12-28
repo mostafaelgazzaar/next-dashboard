@@ -9,7 +9,7 @@ export type User = {
   email: string;
   password: string;
   role: string;
-  env: string;
+  env: "HIGH" | "MEDIUM" | "LOW";
   pdf?: any;
 };
 
@@ -114,6 +114,8 @@ export type UserModules = {
   completed: boolean;
   added_comments: string;
   added_likes: boolean;
+  added_dislike: boolean;
+  watched_duration: number;
 };
 
 export type UserTestAttempts = {
@@ -162,4 +164,18 @@ export type Module = {
   description: string;
   questions: Question[];
   goals: Goal;
+  assignment_title: string;
+  duration: number;
+  enhance_url: string;
+};
+
+export type ModuleStatistics = {
+  module_id: number;
+  completed: boolean;
+  count: number;
+};
+
+export type ModuleEnvCounts = {
+  env: "HIGH" | "MEDIUM" | "LOW";
+  count: number;
 };

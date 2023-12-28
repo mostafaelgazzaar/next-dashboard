@@ -1,10 +1,19 @@
 import Image from "next/image";
+import yg from "../../../public/instructor/yg.jpg";
+import sm from "../../../public/instructor/sm.jpg";
+import mf from "../../../public/instructor/mf.jpg";
+import aya from "../../../public/instructor/aya.png";
 
 export default function Pages() {
   return (
     <>
-      <section className="relative flex items-center h-screen overflow-hidden bg-gray-100 py-26 dark:bg-gray-800 font-poppins">
+      <section className="relative flex items-center h-screen overflow-hidden  py-26 dark:bg-gray-800 font-poppins">
         <div className="relative max-w-5xl px-4 mx-auto">
+          <h2 className="text-3xl font-semibold text-center mb-4 my-2 text-blue-900 px-4">
+            مستويات الرجع بلوحة معلومات المتعلم القائمة على التحليلات التعليمية
+            لبيئة التعلم وأثرها على التحصيل والتنظيم الذاتي والدافعية للتعلم لدى
+            طلاب تكنولوجيا التعليم.
+          </h2>
           <div className="px-4 py-10 text-center bg-white border-indigo-900 shadow-md dark:bg-gray-700 lg:px-20 border-3 rounded-2xl">
             <div className="mb-4">
               <span className="inline-block mb-3 text-sm font-extrabold text-blue-500 dark:text-blue-400">
@@ -15,7 +24,7 @@ export default function Pages() {
               <div className="inline-block w-32 h-32 mb-3 overflow-hidden text-xs text-white bg-blue-500 rounded-full">
                 <Image
                   className="object-cover w-full h-full transition-all hover:scale-110"
-                  src="/customers/balazs-orban.png"
+                  src={aya}
                   alt=""
                   width={200}
                   height={200}
@@ -82,7 +91,7 @@ export default function Pages() {
             <div className="p-6 mb-6 transition duration-200 ease-in border border-gray-100 shadow hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-gray-500 dark:border-gray-700 bg-stone-50 md:mb-0 dark:bg-gray-700">
               <div className="flex justify-center mb-6">
                 <Image
-                  src="/customers/balazs-orban.png"
+                  src={mf}
                   className="object-cover w-24 h-24 border-4 rounded-full shadow-lg border-gray-50 dark:border-gray-500"
                   alt="supervisor"
                   width={200}
@@ -90,15 +99,17 @@ export default function Pages() {
                 />
               </div>
               <p className="mb-6 text-base text-gray-500 dark:text-gray-400">
-                Lorem ipsum dolor sit amet eos adipisci, consectetur adipisicing
-                elit sed ut perspiciatis unde omnis.
+                أستاذ تكنولوجيا التعليم ووكيل كلية التربية النوعية لشؤون خدمة
+                المجتمع وتنمية البيئة -جامعة عين شمس
               </p>
-              <p className="text-sm italic dark:text-gray-400">- Anna Morian</p>
+              <p className="text-sm italic dark:text-gray-400">
+                أ.د/محمد أحمد فرج
+              </p>
             </div>
             <div className="p-6 mb-6 transition duration-200 ease-in border border-gray-100 shadow hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-gray-500 dark:border-gray-700 bg-stone-50 md:mb-0 dark:bg-gray-700">
               <div className="flex justify-center mb-6">
                 <Image
-                  src="/customers/balazs-orban.png"
+                  src={sm}
                   className="object-cover w-24 h-24 border-4 rounded-full shadow-lg border-gray-50 dark:border-gray-500"
                   alt="supervisor"
                   width={200}
@@ -106,15 +117,17 @@ export default function Pages() {
                 />
               </div>
               <p className="mb-6 text-base text-gray-500 dark:text-gray-400">
-                Lorem ipsum dolor sit amet eos adipisci, consectetur adipisicing
-                elit sed ut perspiciatis unde omnis.
+                أستاذ تكنولوجيا التعليم المساعد بكلية التربية النوعية-جامعة عين
+                شمس
               </p>
-              <p className="text-sm italic dark:text-gray-400">- Adam Smith</p>
+              <p className="text-sm italic dark:text-gray-400">
+                - أ.م.د/سهام عبد الحافظ مجاهد
+              </p>
             </div>
             <div className="p-6 mb-6 transition duration-200 ease-in border border-gray-100 shadow hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-gray-500 dark:border-gray-700 bg-stone-50 md:mb-0 dark:bg-gray-700">
               <div className="flex justify-center mb-6">
                 <Image
-                  src="/customers/balazs-orban.png"
+                  src={yg}
                   className="object-cover w-24 h-24 border-4 rounded-full shadow-lg border-gray-50 dark:border-gray-500"
                   alt="supervisor"
                   width={200}
@@ -122,10 +135,11 @@ export default function Pages() {
                 />
               </div>
               <p className="mb-6 text-base text-gray-500 dark:text-gray-400">
-                Lorem ipsum dolor sit amet eos adipisci, consectetur adipisicing
-                elit sed ut perspiciatis unde omnis.
+                مدرس تكنولوجيا التعليم -كلية التربية النوعية -جامعة عين شمس
               </p>
-              <p className="text-sm italic dark:text-gray-400">- John Doe</p>
+              <p className="text-sm italic dark:text-gray-400">
+                - د/ياسر سيد الجبرتي
+              </p>
             </div>
           </div>
         </div>

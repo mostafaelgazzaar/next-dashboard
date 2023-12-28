@@ -71,7 +71,9 @@ export default function LoginForm() {
           {state === "CredentialsSignin" && (
             <>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">Invalid credentials</p>
+              <p className="text-sm text-red-500">
+                البريد او كلمة المرور غير صحيحة
+              </p>
             </>
           )}
         </div>
@@ -85,7 +87,8 @@ function LoginButton() {
 
   return (
     <Button className="mt-4 w-full" aria-disabled={pending}>
-      Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+      تسجيل دخول
+      <ArrowRightIcon className="mr-auto h-5 w-5 text-gray-50" />
     </Button>
   );
 }
