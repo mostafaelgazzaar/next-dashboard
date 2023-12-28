@@ -19,7 +19,7 @@ export default function NavLinks({
   user,
   moduleStatus,
 }: {
-  examIds: string[];
+  examIds: number[];
   user: User;
   moduleStatus: ModuleStatus[];
 }) {
