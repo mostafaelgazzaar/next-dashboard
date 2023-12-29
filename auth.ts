@@ -15,7 +15,6 @@ async function getUser(email: string) {
 }
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  secret:process.env.SECRET,
   providers: [
     Credentials({
       //@ts-ignore
