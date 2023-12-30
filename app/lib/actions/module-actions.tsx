@@ -10,12 +10,13 @@ import {
 import { State } from "@/app/lib/actions";
 
 const PASS_PERCENTAGE = 55;
+
 export async function addLike(user_id: string, module_id: number) {
   try {
-    await sql<UserModules>`
-                UPDATE user_modules SET added_likes = true WHERE user_id = ${user_id} AND module_id = ${module_id}
-            `;
-    await handleOpenNextModule(user_id, module_id);
+    await sql`
+    update user_modules
+    set added_likes=true
+    where user_id=${user_id} AND module_id=${module_id}`;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch the modules.");
@@ -24,16 +25,11 @@ export async function addLike(user_id: string, module_id: number) {
 export async function addDislike(user_id: string, module_id: number) {
   try {
     await sql<UserModules>`
-                UPDATE user_modules SET added_dislike = true WHERE user_id = ${user_id} AND module_id = ${module_id}
+                update user_modules
+                 set added_dislike =true
+                  where user_id = ${user_id} AND module_id = ${module_id}
             `;
-    const { percentage } = await checkUserCompletion(user_id, module_id);
-    if (percentage >= PASS_PERCENTAGE) {
-      let nextModule = module_id + 1;
-      if (nextModule > 5) return;
-      await sql` 
-        insert into user_modules (user_id, module_id, added_likes, added_comments, completed)
-                values (${user_id}, ${module_id}, false, null , false)`;
-    }
+    await handleOpenNextModule(user_id, module_id);
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch the modules.");
@@ -66,7 +62,7 @@ export async function updateExamResult(prevState: State, formData: FormData) {
     let attemptsCount = 0;
     const userTestAttempts = await getUserTestTempts(
       userId?.toString(),
-      moduleId ? +moduleId : null,
+      moduleId ? +moduleId : null
     );
 
     //get module result
@@ -131,7 +127,7 @@ export async function updateModuleWatchedDuration(
   duration: number,
   moduleId: number,
   userId: string,
-  totalDuration: number,
+  totalDuration: number
 ) {
   try {
     await sql`
@@ -156,7 +152,7 @@ export async function updateModuleWatchedDuration(
 }
 export async function getUserTestTempts(
   user_id: string | undefined,
-  module_id: number | null,
+  module_id: number | null
 ) {
   if (!user_id || !module_id) return null;
   const data = await sql<UserTestAttempts>`
@@ -167,7 +163,7 @@ export async function getUserTestTempts(
 
 export async function checkUserCompletion(
   user_id: string | undefined,
-  module_id: number,
+  module_id: number
 ) {
   try {
     let percentage = 0;
@@ -180,8 +176,11 @@ export async function checkUserCompletion(
     const userModulesQueryResult: QueryResult<UserModules> = await sql`
     select * from user_modules where user_id = ${user_id} AND  module_id = ${module_id}`;
 
+    console.log(user_id, module_id);
+
     const moduleResultsQueryResult: QueryResult<ModuleResult> = await sql`
-    select * from module_results where user_id = ${user_id} AND module_id = ${module_id}`;
+    select * from module_results
+     where user_id = ${user_id} AND module_id = ${module_id}`;
 
     const moduleData = await sql`
     select duration from modules where id = ${module_id}`;
@@ -208,7 +207,7 @@ export async function checkUserCompletion(
       moduleResultScore,
       loginCount,
       watchedDuration,
-      moduleDuration,
+      moduleDuration
     );
     if (watchedDuration >= moduleDuration / 2) {
       percentage += 10;
@@ -256,13 +255,26 @@ export async function getUserModulesScore(user_id: string) {
 export async function handleOpenNextModule(userId: string, moduleId: number) {
   try {
     const { percentage } = await checkUserCompletion(userId, moduleId);
+
     if (percentage >= PASS_PERCENTAGE) {
       let nextModule = moduleId + 1;
       if (nextModule > 5) return;
-      await sql`
-        insert into user_modules (user_id, module_id, added_likes, added_comments, completed)
-                values (${userId}, ${nextModule}, false, null , false)`;
+      await sql`insert into
+        user_modules(user_id, module_id, added_likes, added_comments, completed)
+        values(${userId}, ${nextModule}, false, null , false)`;
+
+      await completeModule(userId, moduleId);
     }
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
+  }
+}
+export async function completeModule(userId: string, moduleId: number) {
+  try {
+    await sql`update user_modules
+        set completed=true
+        where user_id = ${userId} AND module_id=${moduleId}`;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch the modules.");

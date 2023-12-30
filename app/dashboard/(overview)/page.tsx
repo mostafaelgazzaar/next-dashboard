@@ -3,8 +3,16 @@ import { lusitana } from "@/app/ui/fonts";
 import { Suspense } from "react";
 import { CardSkeleton, RevenueChartSkeleton } from "@/app/ui/skeletons";
 import ModulesTable from "@/app/ui/dashboard/modules-table";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
 
 export default async function Page() {
+  const { user } = await auth();
+  if(user.role !== "ADMIN"){
+    return redirect("/dashboard/home")
+  }
+
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>

@@ -4,6 +4,10 @@ import { Suspense } from "react";
 import { fetchModules, fetchUsersModules } from "@/app/lib/data/modules-data";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
+import {
+  checkUserCompletion,
+  handleOpenNextModule,
+} from "@/app/lib/actions/module-actions";
 export default async function Page({ params }: { params: { id: number } }) {
   // @ts-ignore
   const { user } = await auth();
@@ -18,6 +22,7 @@ export default async function Page({ params }: { params: { id: number } }) {
   if (!userModule) {
     notFound();
   }
+  // await handleOpenNextModule(user.id, id);
 
   return (
     <div>

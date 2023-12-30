@@ -27,6 +27,7 @@ import { Module } from "@/app/lib/definitions";
 import ReactConfetti from "react-confetti";
 
 import Duration from "@/app/ui/exams/duration";
+import DislikeButton from "./dislike-button";
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 export default function FullPage({
   data,
@@ -175,6 +176,7 @@ export default function FullPage({
                       {!addedLikes && (
                         <div className="flex justify-center">
                           <LikeButton userId={user.id} moduleId={d.id} />
+                          <DislikeButton userId={user.id} moduleId={d.id} />
                         </div>
                       )}
                       {addedLikes && (
