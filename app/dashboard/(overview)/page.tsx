@@ -6,11 +6,11 @@ import ModulesTable from "@/app/ui/dashboard/modules-table";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-
 export default async function Page() {
+  //@ts-ignore
   const { user } = await auth();
-  if(user.role !== "ADMIN"){
-    return redirect("/dashboard/home")
+  if (user.role !== "ADMIN") {
+    return redirect("/dashboard/home");
   }
 
   return (
