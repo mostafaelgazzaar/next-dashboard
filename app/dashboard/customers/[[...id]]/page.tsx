@@ -11,9 +11,8 @@ import { Rating } from "@/app/ui/exams/ratings";
 import PerformanceTable, {
   PerformanceData,
 } from "@/app/ui/dashboard/performance-table";
-import LineChart from "@/app/ui/dashboard/line-chart";
 import Dropdown from "@/app/ui/dashboard/dropdown";
-import { getUser, getUserById } from "@/app/lib/data";
+import { getUserById } from "@/app/lib/data";
 import { fetchModuleById } from "@/app/lib/data/modules-data";
 import { LineChartV2 } from "@/app/ui/dashboard/point-line-chart";
 

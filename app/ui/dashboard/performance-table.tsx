@@ -1,4 +1,3 @@
-import { ArrowUpIcon } from "@heroicons/react/20/solid";
 import {
   BookOpenIcon,
   ChatBubbleOvalLeftIcon,
@@ -72,13 +71,11 @@ export default function PerformanceTable({
             </div>
           </td>
           <td className="py-3 text-sm" role="cell">
-            <p className="text-md font-medium text-gray-600 dark:text-white">
-              <Duration
-                time={data.watchedDuration}
-                className="text-sm text-black"
-                text=""
-              />
-            </p>
+            <Duration
+              time={data.watchedDuration}
+              className="text-sm text-black"
+              text=""
+            />
           </td>
           <td className="py-3 text-sm" role="cell">
             <div className="mx-2 flex font-bold">
@@ -207,7 +204,7 @@ export default function PerformanceTable({
                 <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
                   {data.addedLikes ? (
                     <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      Wow 🎉
+                      ممتاز
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">

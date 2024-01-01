@@ -12,7 +12,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { User } from "@/app/lib/definitions";
-import { PhoneArrowUpRightIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { PhoneArrowUpRightIcon } from "@heroicons/react/20/solid";
 import { ModuleStatus } from "@/app/lib/params-types";
 export default function NavLinks({
   examIds,

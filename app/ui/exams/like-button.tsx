@@ -1,15 +1,17 @@
 import {
   addLike,
-  completeModule,
   handleOpenNextModule,
+  updateInteractionCount,
 } from "@/app/lib/actions/module-actions";
 import { HandThumbUpIcon } from "@heroicons/react/24/solid";
 export function LikeButton({
   moduleId,
   userId,
+  interactionCount,
 }: {
   moduleId: number;
   userId: string;
+  interactionCount?: number;
 }) {
   return (
     <>
@@ -19,6 +21,13 @@ export function LikeButton({
           await addLike(userId, moduleId);
           setTimeout(() => {}, 1000);
           await handleOpenNextModule(userId, moduleId);
+          if (interactionCount) {
+            await updateInteractionCount(
+              userId,
+              moduleId,
+              interactionCount + 1,
+            );
+          }
         }}
       >
         <HandThumbUpIcon className="w-6 h-6" />

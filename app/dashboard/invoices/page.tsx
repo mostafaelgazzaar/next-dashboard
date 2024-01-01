@@ -5,7 +5,7 @@ import { CreateInvoice } from "@/app/ui/invoices/buttons";
 import { lusitana } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
-import { getUserWithPdf, usersWithPdfPages } from "@/app/lib/data/modules-data";
+import { usersWithPdfPages } from "@/app/lib/data/modules-data";
 
 export default async function PagePage({
   searchParams,

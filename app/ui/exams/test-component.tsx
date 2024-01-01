@@ -3,6 +3,7 @@ import { updateExamResult } from "@/app/lib/actions/module-actions";
 import { useFormState } from "react-dom";
 import { Button } from "@/app/ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { UserPerformance } from "@/app/lib/definitions";
 
 // @ts-ignore
 function shuffle(array) {
@@ -13,8 +14,17 @@ function shuffle(array) {
   }
   return shuffledArray;
 }
-// @ts-ignore
-const TestComponent = ({ questions, moduleId, userId }) => {
+const TestComponent = ({
+  questions,
+  moduleId,
+  userId,
+  userPerformance,
+}: {
+  questions: any[];
+  moduleId: number;
+  userId: string;
+  userPerformance: UserPerformance;
+}) => {
   const initialState = { message: "", errors: {} };
   // @ts-ignore
   const [state, dispatch] = useFormState(updateExamResult, initialState);
@@ -149,10 +159,28 @@ const TestComponent = ({ questions, moduleId, userId }) => {
                 </button>
               )}
               {isComplete && (
-                <form action={dispatch} className="flex justify-center mt-3">
+                <form
+                  action={async (formData: FormData) => {
+                    await updateExamResult(state, formData);
+                    setIsComplete(false);
+                    startQuiz();
+                    showQuestion(0);
+                  }}
+                  className="flex justify-center mt-3"
+                >
                   <input type="hidden" name="score" value={score} />
                   <input type="hidden" name="moduleId" value={moduleId} />
                   <input type="hidden" name="userId" value={userId} />
+                  <input
+                    type="hidden"
+                    name="testAttempt"
+                    value={userPerformance.test_attempts_count}
+                  />
+                  <input
+                    type="hidden"
+                    name="averageScore"
+                    value={userPerformance.average_test_score}
+                  />
                   <Button type="submit"> تاكيد</Button>
                   <button
                     type="button"

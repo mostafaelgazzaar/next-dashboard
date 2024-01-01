@@ -1,48 +1,48 @@
-import AcmeLogo from "@/app/ui/acme-logo";
-import styles from "@/app/ui/home.module.css";
+import HeroImage from "../public/images/home-hero.jpg";
 import Image from "next/image";
-import Link from "next/link";
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
-        <AcmeLogo classNames="" />
-      </div>
-      <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-          <div className={styles.shape} />
-          <p className={`text-xl text-gray-800 md:text-3xl md:leading-normal`}>
-            <strong>Welcome to Acme.</strong> This is the example for the{" "}
-            <a href="https://nextjs.org/learn/" className="text-blue-500">
-              Next.js Learn Course
-            </a>
-            , brought to you by Vercel.
-          </p>
-          <Link
-            href="/login"
-            className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-          >
-            <span>Log in</span>
-          </Link>
-        </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
+    <main dir="rtl">
+      <section className=" pb-8 w-full h-full">
+        <div>
           <Image
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
-            className="hidden md:block"
-            alt="Screenshots of the dashboard project showing desktop and mobile versions"
+            src={HeroImage}
+            className="absolute top-0 bottom-0 left-0 right-0 object-cover w-full h-full"
+            alt=""
           />
-
-          <Image
-            src="/hero-mobile.png"
-            width={560}
-            height={620}
-            className="block md:hidden"
-            alt="Screenshot of the dashboard project showing mobile version"
-          />
+          <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center bg-gray-900/75">
+            <div className="z-10 max-w-6xl px-4 mx-auto ">
+              <span className="text-xs font-semibold text-blue-400 uppercase">
+                المعرفة كنز
+              </span>
+              <h2 className="mt-2 mb-4 text-3xl font-bold leading-tight text-white md:text-4xl md:leading-tight lg:text-7xl lg:leading-tight g">
+                بيئة التعلم الالكتروني
+              </h2>
+              <p className="mb-8 text-base leading-8 text-gray-400 lg:text-xl">
+                عزيزي الطالب/الطالبة: اهلاً ومرحبا بك في بيئة التعلم الالكترونئ
+                لدراسة موضوعات أجهزة العروض التعليمية نتمنى لك رحلة تعليمية
+                ممتعة. .
+              </p>
+              <div className="items-center justify-start block gap-4 md:flex">
+                <a
+                  className="block px-5 py-3 mb-4 text-sm font-semibold text-center text-gray-100 transition duration-200 bg-blue-600 rounded md:mb-0 md:inline-block hover:bg-blue-700 "
+                  href="/login"
+                >
+                  {" "}
+                  تسجيل الدخول{" "}
+                </a>
+                <a
+                  className="block px-5 py-3 text-sm font-semibold text-center text-blue-700 transition duration-200 bg-white rounded md:inline-block hover:bg-blue-700 hover:text-gray-100"
+                  href="/contact"
+                >
+                  {" "}
+                  تواصل معنا{" "}
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

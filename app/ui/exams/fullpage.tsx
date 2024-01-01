@@ -11,7 +11,7 @@ import TestComponent from "@/app/ui/exams/test-component";
 import FileUploader from "@/app/ui/exams/file-uploader";
 import { Rating } from "@/app/ui/exams/ratings";
 import { LikeButton } from "@/app/ui/exams/like-button";
-import { User, UserModules } from "@/app/lib/definitions";
+import { User, UserModules, UserPerformance } from "@/app/lib/definitions";
 
 import dynamic from "next/dynamic";
 import {
@@ -19,7 +19,7 @@ import {
   updateModuleWatchedDuration,
 } from "@/app/lib/actions/module-actions";
 import { Tab } from "@headlessui/react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ArrowUpIcon, VideoCameraIcon } from "@heroicons/react/20/solid";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import CommentForm from "./comment-form";
@@ -28,31 +28,48 @@ import ReactConfetti from "react-confetti";
 
 import Duration from "@/app/ui/exams/duration";
 import DislikeButton from "./dislike-button";
+import useWindowSize from "@/app/lib/hooks/use-window";
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 export default function FullPage({
   data,
   user,
   userModule,
+  userPerformance,
 }: {
   data: any;
   user: User;
   userModule: UserModules;
+  userPerformance: UserPerformance;
 }) {
   const [selectedTab, setSelectedTab] = useState("goals");
   const d: Module = data;
   const completed = userModule.completed;
   const addedLikes = userModule.added_likes || userModule.added_dislike;
+  const userWatchingTime = userPerformance.time_on_platform_seconds || 0;
+
   const handlePlayed = async (played: number): Promise<void> => {
     const duration = Math.round(played);
     if (duration <= userModule.watched_duration) return;
-    await postPlayedDuration(duration, user.id);
+    const totalUserDuration = userWatchingTime + duration;
+    await postPlayedDuration(totalUserDuration, user.id);
     await updateModuleWatchedDuration(duration, d.id, user.id, d.duration);
   };
+  const width = useWindowSize().width;
+  const height = useWindowSize().height;
 
   return (
     <div>
       <div className="flex justify-center">
-        {completed && <ReactConfetti />}
+        {completed && (
+          <ReactConfetti
+            width={width}
+            height={height}
+            numberOfPieces={3000}
+            gravity={0.05}
+            recycle={false}
+            wind={0.01}
+          />
+        )}
       </div>
       <Tab.Group>
         <Tab.List className="mb-5 flex list-none flex-row flex-wrap border-b-0 pl-0">
@@ -175,12 +192,26 @@ export default function FullPage({
 
                       {!addedLikes && (
                         <div className="flex justify-center">
-                          <LikeButton userId={user.id} moduleId={d.id} />
-                          <DislikeButton userId={user.id} moduleId={d.id} />
+                          <LikeButton
+                            userId={user.id}
+                            moduleId={d.id}
+                            interactionCount={
+                              userPerformance.interactions_count
+                            }
+                          />
+                          <DislikeButton
+                            userId={user.id}
+                            moduleId={d.id}
+                            interactionCount={
+                              userPerformance.interactions_count
+                            }
+                          />
                         </div>
                       )}
                       {addedLikes && (
-                        <div className="flex justify-center">
+                        <div className=" justify-center py-3">
+                          <h3 className="block text-xl "> اضافة اعجاب</h3>
+
                           <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white">
                             تم التفاعل مع المحتوى
                           </span>
@@ -188,7 +219,23 @@ export default function FullPage({
                       )}
                     </div>
 
-                    <CommentForm moduleId={d.id} userId={user.id} />
+                    {userModule.added_comments && (
+                      <div className=" justify-center py-3">
+                        <h3 className="block text-xl "> اضافة تعليق</h3>
+                        <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white">
+                          تم التعليق على المحتوى
+                        </span>
+                      </div>
+                    )}
+                    {!userModule.added_comments && (
+                      <div className=" justify-center">
+                        <CommentForm
+                          moduleId={d.id}
+                          userId={user.id}
+                          interactionCount={userPerformance.interactions_count}
+                        />
+                      </div>
+                    )}
 
                     <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse mt-2">
                       <Rating value={0} />
@@ -204,6 +251,7 @@ export default function FullPage({
                 questions={d.questions}
                 moduleId={d.id}
                 userId={user.id}
+                userPerformance={userPerformance}
               />
             </div>
           </Tab.Panel>

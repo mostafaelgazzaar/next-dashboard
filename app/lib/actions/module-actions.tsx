@@ -59,10 +59,12 @@ export async function updateExamResult(prevState: State, formData: FormData) {
     const score = Number(formData?.get("score"));
     const moduleId = Number(formData?.get("moduleId"));
     const userId = formData.get("userId")?.toString();
-    let attemptsCount = 0;
+    const testAttempt = Number(formData?.get("testAttempt"));
+    const averageScore = Number(formData?.get("averageScore"));
+    let attemptsCount;
     const userTestAttempts = await getUserTestTempts(
       userId?.toString(),
-      moduleId ? +moduleId : null
+      moduleId ? +moduleId : null,
     );
 
     //get module result
@@ -102,6 +104,12 @@ export async function updateExamResult(prevState: State, formData: FormData) {
         insert into user_modules (user_id, module_id, added_likes, added_comments, completed)
                 values (${userId}, ${moduleId}, false, null , false)`;
     }
+    const newAttemptsCount = testAttempt + 1;
+    const averageTestScore = (averageScore + score) / newAttemptsCount;
+    await sql<UserPerformance>`
+                UPDATE user_performance SET test_attempts_count = ${newAttemptsCount}, average_test_score = ${averageTestScore}
+                WHERE user_id = ${userId}
+            `;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch the modules.");
@@ -110,12 +118,8 @@ export async function updateExamResult(prevState: State, formData: FormData) {
 
 export async function postPlayedDuration(duration: number, userId: string) {
   try {
-    const userPerformance = await sql`
-    select * from user_performance where user_id = ${userId}`;
-    const time_watching_videos_seconds =
-      userPerformance.rows[0].time_watching_videos_seconds + duration;
     const data = await sql`
-                    UPDATE user_performance SET time_watching_videos_seconds = ${time_watching_videos_seconds} WHERE user_id = ${userId}
+                    UPDATE user_performance SET time_watching_videos_seconds = ${duration} WHERE user_id = ${userId}
                 `;
     return data.rows;
   } catch (error) {
@@ -127,7 +131,7 @@ export async function updateModuleWatchedDuration(
   duration: number,
   moduleId: number,
   userId: string,
-  totalDuration: number
+  totalDuration: number,
 ) {
   try {
     await sql`
@@ -152,7 +156,7 @@ export async function updateModuleWatchedDuration(
 }
 export async function getUserTestTempts(
   user_id: string | undefined,
-  module_id: number | null
+  module_id: number | null,
 ) {
   if (!user_id || !module_id) return null;
   const data = await sql<UserTestAttempts>`
@@ -163,7 +167,7 @@ export async function getUserTestTempts(
 
 export async function checkUserCompletion(
   user_id: string | undefined,
-  module_id: number
+  module_id: number,
 ) {
   try {
     let percentage = 0;
@@ -207,7 +211,7 @@ export async function checkUserCompletion(
       moduleResultScore,
       loginCount,
       watchedDuration,
-      moduleDuration
+      moduleDuration,
     );
     if (watchedDuration >= moduleDuration / 2) {
       percentage += 10;
@@ -270,11 +274,27 @@ export async function handleOpenNextModule(userId: string, moduleId: number) {
     throw new Error("Failed to fetch the modules.");
   }
 }
+
 export async function completeModule(userId: string, moduleId: number) {
   try {
     await sql`update user_modules
         set completed=true
         where user_id = ${userId} AND module_id=${moduleId}`;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
+  }
+}
+
+export async function updateInteractionCount(
+  userId: string,
+  moduleId: number,
+  count: number,
+) {
+  try {
+    await sql`update user_performance
+        set interactions_count=${count}
+        where user_id = ${userId}`;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch the modules.");

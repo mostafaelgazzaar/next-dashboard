@@ -3,7 +3,6 @@ import {
   CustomerField,
   CustomersTable,
   InvoiceForm,
-  InvoicesTable,
   LatestInvoiceRaw,
   User,
   Revenue,
@@ -85,9 +84,6 @@ export async function fetchCardData() {
     throw new Error("Failed to card data.");
   }
 }
-
-const ITEMS_PER_PAGE = 6;
-
 export async function fetchInvoiceById(id: string) {
   try {
     const data = await sql<InvoiceForm>`

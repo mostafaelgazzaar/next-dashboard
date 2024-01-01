@@ -1,13 +1,19 @@
-import { addComment } from "@/app/lib/actions/module-actions";
+import {
+  addComment,
+  handleOpenNextModule,
+  updateInteractionCount,
+} from "@/app/lib/actions/module-actions";
 import { useRef } from "react";
 import { useFormState } from "react-dom";
 
 export default function CommentForm({
   moduleId,
   userId,
+  interactionCount,
 }: {
   moduleId: number;
   userId: string;
+  interactionCount?: number;
 }) {
   const initialState = { message: "", errors: {} };
   // @ts-ignore
@@ -20,6 +26,15 @@ export default function CommentForm({
         className="w-full max-w-sm"
         action={async (formData) => {
           await addComment(state, formData);
+          await handleOpenNextModule(userId, moduleId);
+          if (interactionCount) {
+            await updateInteractionCount(
+              userId,
+              moduleId,
+              interactionCount + 1
+            );
+          }
+
           formRef.current?.reset();
         }}
         ref={formRef}

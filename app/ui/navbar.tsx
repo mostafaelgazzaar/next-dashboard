@@ -1,5 +1,6 @@
 import { User } from "@/app/lib/definitions";
 import Image from "next/image";
+import LogoImage from "../../public/logo.jpeg";
 
 export default function Navbar({ user }: { user: User }) {
   return (
@@ -8,7 +9,7 @@ export default function Navbar({ user }: { user: User }) {
         <a className="_o6689fn" href="/">
           <div className="hidden md:block">
             <Image
-              src="/hero.png"
+              src={LogoImage}
               alt="logo"
               width={50}
               height={50}

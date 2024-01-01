@@ -50,11 +50,11 @@ export async function getModulesStatistics() {
   return modulesData.map((module) => {
     const completed = modulesStats.find(
       (moduleStats) =>
-        moduleStats.module_id === module.id && moduleStats.completed === true,
+        moduleStats.module_id === module.id && moduleStats.completed,
     );
     const notCompleted = modulesStats.find(
       (moduleStats) =>
-        moduleStats.module_id === module.id && moduleStats.completed === false,
+        moduleStats.module_id === module.id && !moduleStats.completed,
     );
 
     return {

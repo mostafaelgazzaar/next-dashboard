@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LogoImage from "../../../public/logo.jpeg";
 
 export default function Footer() {
   return (
@@ -11,7 +12,7 @@ export default function Footer() {
             className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white"
           >
             <Image
-              src="/hero.png"
+              src={LogoImage}
               width={36}
               height={36}
               className="h-6 mr-3 sm:h-9"
@@ -20,29 +21,9 @@ export default function Footer() {
             Landwind
           </a>
           <span className="block text-sm text-center text-gray-500 dark:text-gray-400">
-            © 2021-2022 Landwind™. All Rights Reserved. Built with{" "}
-            <a
-              href="https://flowbite.com"
-              className="text-purple-600 hover:underline dark:text-purple-500"
-            >
-              Flowbite
-            </a>{" "}
-            and{" "}
-            <a
-              href="https://tailwindcss.com"
-              className="text-purple-600 hover:underline dark:text-purple-500"
-            >
-              Tailwind CSS
-            </a>
-            . Distributed by{" "}
-            <a
-              href="https://themewagon.com/"
-              className="text-purple-600 hover:underline dark:text-purple-500"
-            >
-              ThemeWagon
-            </a>
+            © 2023-2024 . All Rights Reserved. Built by Mostafa elgazar{" "}
           </span>
-          <ul className="flex justify-center mt-5 space-x-5">
+          {/* <ul className="flex justify-center mt-5 space-x-5">
             <li>
               <a
                 href="#"
@@ -134,7 +115,7 @@ export default function Footer() {
                 </svg>
               </a>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     </footer>

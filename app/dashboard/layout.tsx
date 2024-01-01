@@ -3,6 +3,7 @@ import Navbar from "@/app/ui/navbar";
 import { auth } from "@/auth";
 import Footer from "../ui/home/footer";
 import { Session } from "next-auth/types";
+import React from "react";
 
 export default async function Layout({
   children,

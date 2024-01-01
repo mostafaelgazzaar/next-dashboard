@@ -4,10 +4,8 @@ import { Suspense } from "react";
 import { fetchModules, fetchUsersModules } from "@/app/lib/data/modules-data";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
-import {
-  checkUserCompletion,
-  handleOpenNextModule,
-} from "@/app/lib/actions/module-actions";
+
+import { getUserPerformance } from "@/app/lib/data/dashboard-data";
 export default async function Page({ params }: { params: { id: number } }) {
   // @ts-ignore
   const { user } = await auth();
@@ -22,12 +20,18 @@ export default async function Page({ params }: { params: { id: number } }) {
   if (!userModule) {
     notFound();
   }
-  // await handleOpenNextModule(user.id, id);
+
+  const userPerformance = await getUserPerformance(user.id);
 
   return (
     <div>
       <Suspense>
-        <FullPage data={pageModule} user={user} userModule={userModule} />
+        <FullPage
+          data={pageModule}
+          user={user}
+          userModule={userModule}
+          userPerformance={userPerformance}
+        />
       </Suspense>
     </div>
   );
