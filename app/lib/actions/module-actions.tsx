@@ -64,7 +64,7 @@ export async function updateExamResult(prevState: State, formData: FormData) {
     let attemptsCount;
     const userTestAttempts = await getUserTestTempts(
       userId?.toString(),
-      moduleId ? +moduleId : null,
+      moduleId ? +moduleId : null
     );
 
     //get module result
@@ -131,7 +131,7 @@ export async function updateModuleWatchedDuration(
   duration: number,
   moduleId: number,
   userId: string,
-  totalDuration: number,
+  totalDuration: number
 ) {
   try {
     await sql`
@@ -156,7 +156,7 @@ export async function updateModuleWatchedDuration(
 }
 export async function getUserTestTempts(
   user_id: string | undefined,
-  module_id: number | null,
+  module_id: number | null
 ) {
   if (!user_id || !module_id) return null;
   const data = await sql<UserTestAttempts>`
@@ -167,15 +167,12 @@ export async function getUserTestTempts(
 
 export async function checkUserCompletion(
   user_id: string | undefined,
-  module_id: number,
+  module_id: number
 ) {
   try {
     let percentage = 0;
     const userPdfQueryResult: QueryResult<Pdf> = await sql`
         select * from pdfs where user_id = ${user_id} AND module_id = ${module_id}`;
-
-    const userPerformanceQueryResult: QueryResult<UserPerformance> = await sql`
-    select * from user_performance where user_id = ${user_id}`;
 
     const userModulesQueryResult: QueryResult<UserModules> = await sql`
     select * from user_modules where user_id = ${user_id} AND  module_id = ${module_id}`;
@@ -189,7 +186,6 @@ export async function checkUserCompletion(
     const moduleData = await sql`
     select duration from modules where id = ${module_id}`;
 
-    const userPerformance = userPerformanceQueryResult.rows[0];
     const userModules = userModulesQueryResult.rows[0];
     const userPdf = userPdfQueryResult.rows[0];
     const moduleResult = moduleResultsQueryResult.rows[0];
@@ -200,37 +196,15 @@ export async function checkUserCompletion(
     const addedPdf = !!userPdf;
     const addedComments = userModules?.added_comments || "";
     const moduleResultScore = moduleResult?.score || 0;
-    const loginCount = userPerformance?.login_count || 0;
     const watchedDuration = userModules?.watched_duration || 0;
 
-    console.log(
-      addedDislikes,
-      addedLikes,
-      addedPdf,
-      addedComments,
-      moduleResultScore,
-      loginCount,
-      watchedDuration,
-      moduleDuration,
-    );
     if (watchedDuration >= moduleDuration / 2) {
-      percentage += 10;
-    }
-    if (addedLikes || addedDislikes) percentage += 10;
-    if (addedPdf) percentage += 20;
-    if (addedComments) percentage += 10;
-    if (loginCount === 1) {
-      percentage += 5;
-    } else if (loginCount === 2) {
-      percentage += 10;
-    } else if (loginCount > 3) {
       percentage += 20;
     }
-    if (moduleResultScore === 5) {
-      percentage += 40;
-    } else {
-      percentage += moduleResultScore * 10;
-    }
+    if (addedLikes || addedDislikes) percentage += 20;
+    if (addedPdf) percentage += 20;
+    if (addedComments) percentage += 20;
+    if (moduleResultScore >= 3) percentage += 20;
 
     return {
       percentage,
@@ -289,7 +263,7 @@ export async function completeModule(userId: string, moduleId: number) {
 export async function updateInteractionCount(
   userId: string,
   moduleId: number,
-  count: number,
+  count: number
 ) {
   try {
     await sql`update user_performance

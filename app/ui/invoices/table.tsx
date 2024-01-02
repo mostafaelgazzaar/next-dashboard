@@ -12,6 +12,7 @@ export default async function InvoicesTable({
   currentPage: number;
 }) {
   const pdfs = await getUserWithPdf(moduleId, currentPage);
+  console.log(pdfs);
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -37,16 +38,16 @@ export default async function InvoicesTable({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  User Name
+                  اسم الطالب
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                  البريد الالكتروني
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Date
+                  التاريخ
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Uploaded PDF
+                  النشاط
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Actions</span>

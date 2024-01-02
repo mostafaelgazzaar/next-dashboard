@@ -5,10 +5,16 @@ import { Chart } from "react-google-charts";
 export const CircleChart = ({
   data,
   options,
+  percentage,
 }: {
   data: [string, number | string][];
-  options: object;
+  options: any;
+  percentage: boolean;
 }) => {
+  if (!percentage) {
+    options.pieSliceText = "value";
+  }
+
   return (
     <Chart
       chartType="PieChart"

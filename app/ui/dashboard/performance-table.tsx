@@ -28,7 +28,7 @@ export default function PerformanceTable({
             className="cursor-pointer"
           >
             <div className="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs">
-              مؤشرات الاداء{" "}
+              مؤشرات الاداء الخاصه بكل موديول
             </div>
           </th>
           <th
@@ -64,7 +64,7 @@ export default function PerformanceTable({
                 مشاهدة المحتوي
                 {withDetails && (
                   <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {" -  40 %"}
+                    {" -  20 %"}
                   </span>
                 )}
               </p>
@@ -83,7 +83,7 @@ export default function PerformanceTable({
                 <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
                   {data.watchedDuration >= data.moduleDuration / 2 ? (
                     <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      عظيم
+                      احسنت
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -107,7 +107,7 @@ export default function PerformanceTable({
                 نتائج الاختبار
                 {withDetails && (
                   <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {" -  40 %"}
+                    {" -  20 %"}
                   </span>
                 )}
               </p>
@@ -124,7 +124,7 @@ export default function PerformanceTable({
                 <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
                   {data.moduleResultScore > 3 ? (
                     <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      عظيم
+                      احسنت
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -148,7 +148,7 @@ export default function PerformanceTable({
                 التعليقات
                 {withDetails && (
                   <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {" -  10 %"}
+                    {" -  20 %"}
                   </span>
                 )}
               </p>
@@ -156,7 +156,7 @@ export default function PerformanceTable({
           </td>
           <td className="py-3 text-sm" role="cell">
             <p className="text-md font-medium text-gray-600 dark:text-white">
-              {data.addedComments}
+              {data.addedComments ? "مكتمل" : "غير مكتمل"}
             </p>
           </td>
           <td className="py-3 text-sm" role="cell">
@@ -165,11 +165,14 @@ export default function PerformanceTable({
                 <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
                   {data.addedComments ? (
                     <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      عظيم
+                      احسنت
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      <Link href={`/dashboard/exams/${moduleId}`}>enhance</Link>
+                      <Link href={`/dashboard/exams/${moduleId}`}>
+                        {" "}
+                        اضافة تعليق
+                      </Link>
                     </span>
                   )}
                 </div>
@@ -187,7 +190,7 @@ export default function PerformanceTable({
                 اعجبك المحتوي
                 {withDetails && (
                   <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {" -  10 %"}
+                    {" -  20 %"}
                   </span>
                 )}
               </p>
@@ -195,7 +198,7 @@ export default function PerformanceTable({
           </td>
           <td className="py-3 text-sm" role="cell">
             <p className="text-md font-medium text-gray-600 dark:text-white">
-              {data.addedLikes ? "نعم " : "لا "}
+              {data.addedLikes ? "مكتمل " : "غير مكتمل "}
             </p>
           </td>
           <td className="py-3 text-sm" role="cell">
@@ -204,7 +207,7 @@ export default function PerformanceTable({
                 <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
                   {data.addedLikes ? (
                     <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      ممتاز
+                      احسنت
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -237,7 +240,7 @@ export default function PerformanceTable({
           </td>
           <td className="py-3 text-sm" role="cell">
             <p className="text-md font-medium text-gray-600 dark:text-white">
-              {data.addedPdf ? "نعم" : "لا"}
+              {data.addedPdf ? "مكتمل" : "غير مكتمل"}
             </p>
           </td>
           <td className="py-3 text-sm" role="cell">
@@ -246,7 +249,7 @@ export default function PerformanceTable({
                 <div className=" h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
                   {data.addedPdf ? (
                     <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      ممتاز
+                      احسنت
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -258,6 +261,20 @@ export default function PerformanceTable({
                 </div>
               </div>
             </div>
+          </td>
+        </tr>
+        <tr role="row">
+          <td className="py-3 text-sm" role="cell">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium text-navy-700 dark:text-white">
+                النتيجة الكلية
+              </p>
+            </div>
+          </td>
+          <td className="py-3 text-sm" role="cell">
+            <p className="text-md font-medium text-gray-600 dark:text-white">
+              {`${data.percentage} %`}
+            </p>
           </td>
         </tr>
         <tr role="row">
@@ -299,4 +316,5 @@ export type PerformanceData = {
   watchedDuration: number;
   enhanceUrl: string;
   moduleDuration: number;
+  percentage: number;
 };

@@ -54,6 +54,7 @@ export default async function Page({
     watchedDuration,
     enhanceUrl: selectedModule?.enhance_url,
     moduleDuration: selectedModule?.duration,
+    percentage,
   };
 
   const data: [string, string | number][] = [
@@ -73,6 +74,7 @@ export default async function Page({
 
   const options = {
     title: "مستويات تفاعل الطالب ",
+    is3D: true,
   };
 
   const lineChartTitle = ["الموديل", "النتيجة"];
@@ -90,6 +92,12 @@ export default async function Page({
       <div className="flex justify-between ">
         {user?.env === "LOW" && (
           <div className="mt-5 w-2/3  justify-center">
+            <CircleChart
+              data={data}
+              options={options}
+              percentage={false}
+            ></CircleChart>
+            <hr className="text-gray-500 text-3xl my-3" />
             <p className="text-center text-2xl ">
               انت الان في بيئة التعليم المنخفض{" "}
             </p>
@@ -102,13 +110,17 @@ export default async function Page({
             </p>
 
             <div className="flex justify-center mt-5">
-              <Rating value={+ratingValue / 2} />
+              <Rating value={ratingValue / 2} disabled={true} />
             </div>
           </div>
         )}
         {(user?.env === "HIGH" || user.env === "MEDIUM") && (
           <section className="mt-5 ml-1 w-3/4">
-            <CircleChart data={data} options={options}></CircleChart>
+            <CircleChart
+              data={data}
+              options={options}
+              percentage={true}
+            ></CircleChart>
             <hr className="text-gray-500 text-3xl my-3" />
 
             <LineChartV2 title={lineChartTitle} data={lineChartData} />
@@ -124,11 +136,11 @@ export default async function Page({
 
             <div className="grid place-items-center">
               <p className="block"> تقيمك الحالي هو </p>
-              <Rating value={+ratingValue / 2} />
+              <Rating value={ratingValue / 2} disabled={true} />
             </div>
           </section>
         )}
-        <div className="">
+        <div className="hidden md:block">
           <UserCard user={cardUser} />
         </div>
       </div>

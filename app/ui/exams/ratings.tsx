@@ -5,9 +5,15 @@ import "@smastrom/react-rating/style.css";
 import { useState } from "react";
 import { Rating as ReactRating } from "@smastrom/react-rating";
 
-export function Rating({ value }: { value: number }) {
+export function Rating({
+  value,
+  disabled,
+}: {
+  value: number;
+  disabled: boolean;
+}) {
   if (!value) value = 0;
-  const [rating, setRating] = useState(value);
+  const [rating, setRating] = useState(Math.round(value));
 
   return (
     <ReactRating
@@ -16,6 +22,7 @@ export function Rating({ value }: { value: number }) {
       value={rating}
       onChange={setRating}
       transition="position"
+      isDisabled={disabled}
     />
   );
 }
