@@ -19,8 +19,8 @@ export async function POST(request: NextRequest) {
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const relativeUploadDir =  `/tmp/uploads`;
-  const uploadDir = join(process.cwd(), relativeUploadDir);
+  const relativeUploadDir = `/uploads/`;
+  const uploadDir = join(process.cwd(), "public", relativeUploadDir);
 
   try {
     await stat(uploadDir);
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       /\.[^/.]+$/,
       "",
     )}-${uniqueSuffix}.${mime.getExtension(file.type)}`;
-    await writeFile(`${uploadDir}/${filename}`, buffer);
+    await fs.writeFileSync(`${uploadDir}/${filename}`, buffer);
     const url = `${uploadDir}/${filename}`;
     await updatePdf(url, userId, moduleId);
     return NextResponse.json({ fileUrl: `${relativeUploadDir}/${filename}` });
