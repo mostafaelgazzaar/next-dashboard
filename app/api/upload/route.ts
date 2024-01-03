@@ -1,5 +1,6 @@
 import mime from "mime";
 import { join } from "path";
+import fs from "fs";
 import { stat, mkdir, writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import { updatePdf } from "@/app/lib/actions";
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
   } catch (e: any) {
     console.log(e.code);
     if (e.code === "ENOENT") {
-      await mkdir(uploadDir, { recursive: true });
+      fs.mkdir(uploadDir, { recursive: true }, (err) => {});
     } else {
       console.error(
         "Error while trying to create directory when uploading a file\n",
