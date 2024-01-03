@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const relativeUploadDir = `/uploads/`;
+  const relativeUploadDir =  `/tmp/uploads`;
   const uploadDir = join(process.cwd(), "public", relativeUploadDir);
 
   try {
