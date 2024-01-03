@@ -2,7 +2,6 @@ import { Storage } from "@google-cloud/storage";
 import mime from "mime";
 import { NextRequest, NextResponse } from "next/server";
 import { updatePdf } from "@/app/lib/actions";
-import fs from "fs";
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
 
@@ -15,9 +14,23 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   }
-
+  let credential;
+  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    credential = JSON.parse(
+      Buffer.from(
+        process.env.GOOGLE_APPLICATION_CREDENTIALS,
+        "base64"
+      ).toString()
+    );
+  } else {
+    // Handle the case when the environment variable is not defined
+    console.error("GOOGLE_APPLICATION_CREDENTIALS is not defined");
+  }
   const buffer = Buffer.from(await file.arrayBuffer());
-  const storage = new Storage();
+  const storage = new Storage({
+    projectId: "cloud-storage-85036",
+    credentials: credential,
+  });
   const bucketName = "cloud-storage-85036.appspot.com"; // replace with your bucket name
 
   try {
