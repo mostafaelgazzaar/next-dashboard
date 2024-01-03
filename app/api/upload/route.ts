@@ -19,8 +19,7 @@ export async function POST(request: NextRequest) {
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const relativeUploadDir = `/uploads/`;
-  const uploadDir = join(process.cwd(), "public", relativeUploadDir);
+  const uploadDir = '/temp';
 
   try {
     await stat(uploadDir);
@@ -49,7 +48,7 @@ export async function POST(request: NextRequest) {
     await fs.writeFileSync(`${uploadDir}/${filename}`, buffer);
     const url = `${uploadDir}/${filename}`;
     await updatePdf(url, userId, moduleId);
-    return NextResponse.json({ fileUrl: `${relativeUploadDir}/${filename}` });
+    return NextResponse.json({ fileUrl: `${uploadDir}/${filename}` });
   } catch (e) {
     console.error("Error while trying to upload a file\n", e);
     return NextResponse.json(
