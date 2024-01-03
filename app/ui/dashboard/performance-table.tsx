@@ -7,6 +7,7 @@ import {
 import Link from "next/link";
 import Duration from "@/app/ui/exams/duration";
 import { GlobeAltIcon } from "@heroicons/react/24/solid";
+import ProgressLine from "@/app/ui/dashboard/lin-progress";
 
 export default function PerformanceTable({
   data,
@@ -96,6 +97,13 @@ export default function PerformanceTable({
               </div>
             </div>
           </td>
+          <td className=" text-lg" role="cell">
+            <ProgressLine
+              percentage={Math.round(
+                (data.watchedDuration / data.moduleDuration) * 100,
+              )}
+            />
+          </td>
         </tr>
         <tr role="row">
           <td className="py-3 text-sm" role="cell">
@@ -136,6 +144,11 @@ export default function PerformanceTable({
                 </div>
               </div>
             </div>
+          </td>
+          <td className=" text-lg" role="cell">
+            <ProgressLine
+              percentage={Math.round((data.moduleResultScore / 5) * 100)}
+            />
           </td>
         </tr>
         <tr role="row">
@@ -179,6 +192,9 @@ export default function PerformanceTable({
               </div>
             </div>
           </td>
+          <td className="py-3 text-sm" role="cell">
+            <ProgressLine percentage={data.addedComments ? 100 : 0} />
+          </td>
         </tr>
         <tr role="row">
           <td className="py-3 text-sm" role="cell">
@@ -219,6 +235,9 @@ export default function PerformanceTable({
                 </div>
               </div>
             </div>
+          </td>
+          <td className="py-3 text-sm" role="cell">
+            <ProgressLine percentage={data.addedLikes ? 100 : 0} />
           </td>
         </tr>
 
@@ -262,6 +281,9 @@ export default function PerformanceTable({
               </div>
             </div>
           </td>
+          <td className="py-3 text-sm" role="cell">
+            <ProgressLine percentage={data.addedPdf ? 100 : 0} />
+          </td>
         </tr>
         <tr role="row">
           <td className="py-3 text-sm" role="cell">
@@ -275,6 +297,11 @@ export default function PerformanceTable({
             <p className="text-md font-medium text-gray-600 dark:text-white">
               {`${data.percentage} %`}
             </p>
+          </td>
+
+          <td></td>
+          <td className="py-3 text-sm" role="cell">
+            <ProgressLine percentage={data.percentage} />
           </td>
         </tr>
         <tr role="row">

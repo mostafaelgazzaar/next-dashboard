@@ -25,10 +25,16 @@ import { BookOpenIcon } from "@heroicons/react/24/outline";
 import CommentForm from "./comment-form";
 import { Module } from "@/app/lib/definitions";
 import ReactConfetti from "react-confetti";
+import Module_1 from "../../../public/modules/module_1.jpeg";
+import Module_2 from "../../../public/modules/module_2.jpeg";
+import Module_3 from "../../../public/modules/module_3.jpeg";
+import Module_4 from "../../../public/modules/module_4.jpeg";
+import Module_5 from "../../../public/modules/module_5.jpeg";
 
 import Duration from "@/app/ui/exams/duration";
 import DislikeButton from "./dislike-button";
 import useWindowSize from "@/app/lib/hooks/use-window";
+import Image from "next/image";
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 export default function FullPage({
   data,
@@ -146,15 +152,38 @@ export default function FullPage({
               </h4>
               <hr className="w-full border-1 border-gray-200 my-4" />
               <h3 className="text-3xl text-blue-500 mb-2">
-                الاهداف ألاجرائية :
+                الاهداف الإجرائية :
               </h3>
-              <ul className="list-disc list-inside 	 ">
-                {d.goals?.goals.map((goal: string, index) => (
-                  <li key={"index" + index} className="text-xl text-black mb-4">
-                    {goal}
-                  </li>
-                ))}
-              </ul>
+              <div className="flex flex-row items-start w-full h-full">
+                <div className="w-1/2">
+                  <ul className="list-disc list-inside 	 ">
+                    {d.goals?.goals.map((goal: string, index) => (
+                      <li
+                        key={"index" + index}
+                        className="text-xl text-black mb-4"
+                      >
+                        {goal}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="w-1/2">
+                  <Image
+                    src={
+                      d.id === 1
+                        ? Module_1
+                        : d.id === 2
+                        ? Module_2
+                        : d.id === 3
+                        ? Module_3
+                        : d.id === 4
+                        ? Module_4
+                        : Module_5
+                    }
+                    alt="module image"
+                  />
+                </div>
+              </div>
             </div>
           </Tab.Panel>
           <Tab.Panel>

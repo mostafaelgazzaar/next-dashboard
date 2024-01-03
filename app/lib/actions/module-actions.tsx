@@ -64,7 +64,7 @@ export async function updateExamResult(prevState: State, formData: FormData) {
     let attemptsCount;
     const userTestAttempts = await getUserTestTempts(
       userId?.toString(),
-      moduleId ? +moduleId : null
+      moduleId ? +moduleId : null,
     );
 
     //get module result
@@ -96,7 +96,6 @@ export async function updateExamResult(prevState: State, formData: FormData) {
             `;
     }
     const { percentage } = await checkUserCompletion(userId, moduleId);
-    console.log("percentage", percentage);
     if (percentage >= PASS_PERCENTAGE) {
       let nextModule = moduleId + 1;
       if (nextModule > 5) return;
@@ -131,7 +130,7 @@ export async function updateModuleWatchedDuration(
   duration: number,
   moduleId: number,
   userId: string,
-  totalDuration: number
+  totalDuration: number,
 ) {
   try {
     await sql`
@@ -156,7 +155,7 @@ export async function updateModuleWatchedDuration(
 }
 export async function getUserTestTempts(
   user_id: string | undefined,
-  module_id: number | null
+  module_id: number | null,
 ) {
   if (!user_id || !module_id) return null;
   const data = await sql<UserTestAttempts>`
@@ -167,7 +166,7 @@ export async function getUserTestTempts(
 
 export async function checkUserCompletion(
   user_id: string | undefined,
-  module_id: number
+  module_id: number,
 ) {
   try {
     let percentage = 0;
@@ -176,8 +175,6 @@ export async function checkUserCompletion(
 
     const userModulesQueryResult: QueryResult<UserModules> = await sql`
     select * from user_modules where user_id = ${user_id} AND  module_id = ${module_id}`;
-
-    console.log(user_id, module_id);
 
     const moduleResultsQueryResult: QueryResult<ModuleResult> = await sql`
     select * from module_results
@@ -263,7 +260,7 @@ export async function completeModule(userId: string, moduleId: number) {
 export async function updateInteractionCount(
   userId: string,
   moduleId: number,
-  count: number
+  count: number,
 ) {
   try {
     await sql`update user_performance

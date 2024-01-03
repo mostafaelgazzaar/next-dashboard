@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import "./file-uploader.css";
 
 export default function FileUploader({
@@ -11,16 +11,19 @@ export default function FileUploader({
   moduleId: number;
   title: string;
 }) {
+  const [message, setMessage] = useState<string>("من فضلك اختار الملف");
   const onImageFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
 
     if (!fileInput.files) {
       console.warn("لم يتم اختيار الملف");
+      setMessage("لم يتم اختيار الملف");
       return;
     }
 
     if (!fileInput.files || fileInput.files.length === 0) {
       console.warn("files list is empty");
+      setMessage("لم يتم اختيار الملف");
       return;
     }
 
@@ -39,8 +42,10 @@ export default function FileUploader({
 
       if (!res.ok) {
         console.error("something went wrong, check your console.");
+        setMessage("حدث خطأ ما");
         return;
       }
+      setMessage("تم رفع الملف بنجاح");
 
       const data: { fileUrl: string } = await res.json();
     } catch (error) {
@@ -59,6 +64,7 @@ export default function FileUploader({
           {title}
         </legend>
         <hr className="mt-2 mb-4" />
+        <p className="text-center text-gray-500 text-lg">{message}</p>
         <span className="sr-only">من فضلك اختار الملف</span>
         <input
           className="block w-full text-sm text-slate-500

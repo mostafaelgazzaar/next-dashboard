@@ -47,16 +47,14 @@ export async function getUserWithPdf(module_id: number, currentPage: number) {
             SELECT * FROM pdfs WHERE module_id = ${module_id}
              LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}        `;
     const usersIds = pdfs.rows.map((pdf) => pdf.user_id);
-    console.log(usersIds);
     if (usersIds.length === 0) return [] as User[];
-    let users :User[] = [];
+    let users: User[] = [];
     for (let i = 0; i < usersIds.length; i++) {
       const user = await sql<User>`
             SELECT * FROM users WHERE id = ${usersIds[i]}
         `;
       users.push(user.rows[0]);
     }
-  
 
     return users.map((user) => ({
       ...user,

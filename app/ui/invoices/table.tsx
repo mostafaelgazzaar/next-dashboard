@@ -12,7 +12,6 @@ export default async function InvoicesTable({
   currentPage: number;
 }) {
   const pdfs = await getUserWithPdf(moduleId, currentPage);
-  console.log(pdfs);
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">

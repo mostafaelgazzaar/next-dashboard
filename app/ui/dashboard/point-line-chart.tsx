@@ -44,11 +44,11 @@ export function LineChartV2({
     },
   };
   const chartData = {
-    labels: data.map((item) => numberToName(item[0])),
+    labels: [null, ...data.map((item) => numberToName(item[0]))],
     datasets: [
       {
         label: "النقاط",
-        data: data.map((item) => item[1]),
+        data: [null, ...data.map((item) => item[1])],
         borderColor: "rgb(61,49,173)",
         backgroundColor: "rgba(41,49,206,0.5)",
       },
