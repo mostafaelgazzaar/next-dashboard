@@ -88,9 +88,13 @@ export default function PerformanceTable({
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      <Link href={`/dashboard/exams/${moduleId}`}>
-                        اعادة المشاهدة{" "}
-                      </Link>
+                      {withDetails ? (
+                        <Link href={`/dashboard/exams/${moduleId}`}>
+                          اعادة المشاهدة{" "}
+                        </Link>
+                      ) : (
+                        "----"
+                      )}
                     </span>
                   )}
                 </div>
@@ -98,11 +102,13 @@ export default function PerformanceTable({
             </div>
           </td>
           <td className=" text-lg" role="cell">
-            <ProgressLine
-              percentage={Math.round(
-                (data.watchedDuration / data.moduleDuration) * 100
-              )}
-            />
+            {withDetails && (
+              <ProgressLine
+                percentage={Math.round(
+                  (data.watchedDuration / data.moduleDuration) * 100
+                )}
+              />
+            )}
           </td>
         </tr>
         <tr role="row">
@@ -136,9 +142,16 @@ export default function PerformanceTable({
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      <Link href={`/dashboard/exams/${moduleId}`}>
-                        اعادة الاختبار{" "}
-                      </Link>
+                      {withDetails ? (
+                        <>
+                          {" "}
+                          <Link href={`/dashboard/exams/${moduleId}`}>
+                            اعادة الاختبار{" "}
+                          </Link>
+                        </>
+                      ) : (
+                        "----"
+                      )}
                     </span>
                   )}
                 </div>
@@ -184,10 +197,16 @@ export default function PerformanceTable({
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      <Link href={`/dashboard/exams/${moduleId}`}>
-                        {" "}
-                        اضافة تعليق
-                      </Link>
+                      {withDetails ? (
+                        <>
+                          <Link href={`/dashboard/exams/${moduleId}`}>
+                            {" "}
+                            اضافة تعليق
+                          </Link>
+                        </>
+                      ) : (
+                        "----"
+                      )}
                     </span>
                   )}
                 </div>
@@ -231,9 +250,15 @@ export default function PerformanceTable({
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      <Link href={`/dashboard/exams/${moduleId}`}>
-                        اضافة اعجاب
-                      </Link>
+                      {withDetails ? (
+                        <>
+                          <Link href={`/dashboard/exams/${moduleId}`}>
+                            اضافة اعجاب
+                          </Link>
+                        </>
+                      ) : (
+                        "----"
+                      )}
                     </span>
                   )}
                 </div>
@@ -278,9 +303,15 @@ export default function PerformanceTable({
                     </span>
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      <Link href={`/dashboard/exams/${moduleId}`}>
-                        ارفع النشاط
-                      </Link>
+                      {withDetails ? (
+                        <>
+                          <Link href={`/dashboard/exams/${moduleId}`}>
+                            ارفع النشاط
+                          </Link>
+                        </>
+                      ) : (
+                        "----"
+                      )}
                     </span>
                   )}
                 </div>
@@ -314,32 +345,35 @@ export default function PerformanceTable({
             </td>
           )}
         </tr>
-        <tr role="row">
-          <td className="py-3 text-sm" role="cell">
-            <div className="flex items-center gap-2">
-              <div className="h-[30px] w-[30px] rounded-full">
-                <GlobeAltIcon />
+
+        {withDetails && (
+          <tr role="row">
+            <td className="py-3 text-sm" role="cell">
+              <div className="flex items-center gap-2">
+                <div className="h-[30px] w-[30px] rounded-full">
+                  <GlobeAltIcon />
+                </div>
+                <p className="text-sm font-medium text-navy-700 dark:text-white">
+                  مشاهدة المحتوي بطريقة اخري{" "}
+                </p>
               </div>
-              <p className="text-sm font-medium text-navy-700 dark:text-white">
-                مشاهدة المحتوي بطريقة اخري{" "}
-              </p>
-            </div>
-          </td>
-          <td className="py-3 text-sm" role="cell"></td>
-          <td className="py-3 text-sm" role="cell">
-            <div className="mx-2 flex font-bold">
-              <div className="h-2 w-20 rounded-full  dark:bg-navy-700">
-                <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
-                  <Link href={data.enhanceUrl}>
-                    <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      انقر هنا
-                    </span>
-                  </Link>
+            </td>
+            <td className="py-3 text-sm" role="cell"></td>
+            <td className="py-3 text-sm" role="cell">
+              <div className="mx-2 flex font-bold">
+                <div className="h-2 w-20 rounded-full  dark:bg-navy-700">
+                  <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
+                    <Link href={data.enhanceUrl}>
+                      <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        انقر هنا
+                      </span>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );

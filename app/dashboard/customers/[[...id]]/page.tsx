@@ -54,10 +54,10 @@ export default async function Page({
     otherModules.map(async (module) => {
       const { percentage } = await checkUserCompletion(
         userId,
-        +module.module_id,
+        +module.module_id
       );
       return { moduleId: +module.module_id, percentage: percentage };
-    }),
+    })
   );
   const modulePercentage = [
     { moduleId: moduleId, percentage: percentage },
