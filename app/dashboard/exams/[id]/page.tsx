@@ -1,18 +1,29 @@
 "use server";
 import FullPage from "@/app/ui/exams/fullpage";
 import { Suspense } from "react";
-import { fetchModules, fetchUsersModules } from "@/app/lib/data/modules-data";
+import {
+  fetchModules,
+  fetchUsersModules,
+  getUserModulePdf,
+} from "@/app/lib/data/modules-data";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 
 import { getUserPerformance } from "@/app/lib/data/dashboard-data";
-export default async function Page({ params }: { params: { id: number } }) {
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { id: number };
+  searchParams: { tab: string };
+}) {
   // @ts-ignore
   const { user } = await auth();
   const id = params.id;
   const modules = await fetchModules();
   const userModules = await fetchUsersModules(user.id);
   const pageModule = modules.find((module) => +module.id === +id);
+  const userPdf = await getUserModulePdf(user.id, id);
   if (!pageModule) {
     notFound();
   }
@@ -21,6 +32,7 @@ export default async function Page({ params }: { params: { id: number } }) {
     notFound();
   }
 
+  const tab = searchParams.tab;
   const userPerformance = await getUserPerformance(user.id);
 
   return (
@@ -31,6 +43,8 @@ export default async function Page({ params }: { params: { id: number } }) {
           user={user}
           userModule={userModule}
           userPerformance={userPerformance}
+          userPdf={userPdf}
+          tab={tab}
         />
       </Suspense>
     </div>

@@ -20,7 +20,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 );
 
 export function LineChartV2({
@@ -32,14 +32,14 @@ export function LineChartV2({
 }) {
   const options = {
     responsive: true,
-
+    width: "100%",
     plugins: {
       legend: {
         position: "top" as const,
       },
       title: {
         display: true,
-        text: "مخطط النقاط",
+        text: "مخطط نسبة الموديولات",
       },
     },
   };

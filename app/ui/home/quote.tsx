@@ -1,46 +1,51 @@
-import Image from "next/image";
-
 export default function Quote() {
   return (
     <section className="bg-gray-50 dark:bg-gray-800">
-      <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
-        <figure className="max-w-screen-md mx-auto">
-          <svg
-            className="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
-            viewBox="0 0 24 27"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z"
-              fill="currentColor"
-            />
-          </svg>
-          <blockquote>
-            <p className="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">
-              `Landwind is just awesome. It contains tons of predesigned
-              components and pages starting from login screen to complex
-              dashboard. Perfect choice for your next SaaS application.`
-            </p>
-          </blockquote>
-          <figcaption className="flex items-center justify-center mt-6 space-x-3">
-            <Image
-              className="w-6 h-6 rounded-full"
-              src="/hero.png"
-              width={24}
-              height={24}
-              alt="profile picture"
-            />
-            <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-              <div className="pr-3 font-medium text-gray-900 dark:text-white">
-                Micheal Gogh
-              </div>
-              <div className="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
-                CEO at Google
-              </div>
-            </div>
-          </figcaption>
-        </figure>
+      <div className="max-w-screen-xl px-4 py-8 mx-auto  lg:py-24 lg:px-6">
+        <h3 className="text-2xl mb-2">مقدمة عامة:</h3>
+        <p className="text-red-500 text-xl mb-2 ">
+          عزيزي الطالب لماذا يتم دراسة ر أعرز العرض التعليمية؟
+        </p>
+        <p className="max-w-2xl mb-2 font-light lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 leading-9">
+          يعد الاستعانة بالتكنولوجيا الحديثة فى العملية التعليمية أمر لا غنى عنه
+          وأحد الدعائم الأساسية فى منظومة التعلم، حيث إن استخدامها يتيح
+          للمتعلمين أشكالاً جديدة من الاتصال وطرقاً جديدة فى التواصل وحل
+          المشكلات، وعلى ذلك كان استخدام أجهزة العرض فى التعليم كأحد أدوات
+          التكنولوجيا الحديثة أمراً ضرورياً ومتطلباً أساسيا لتقدم العملية
+          التعليمية وكفاءتها مرهوناً بالاستخدام السليم لهذه الأجهزة. فأجهزة
+          العرض التعليمية هي وسائل تحقيق أهداف العملية التعليمية وتحسين عمليتي
+          التعليم والتعلم، وتحقيق الاتصال الفعال بين المحتوى والمتعلم، قائمة على
+          الاستعانة بمعدات وآلات ووسائل تكنولوجيا التعليم، لتحقيق أفضل أداء
+          وبأقل تكلفة وفى أقل وقت وأكثر سرعة ودقة، مع التحديث والتطوير فى
+          قدراتها وإمكانياتها لخدمة الأغراض التعليمية والتربوية، فى ضوء ذلك سوف
+          نتناول في بيئة التعلم أهم الاجهزة التعليمية التي يمكن توظيفها
+          والاستعانة بها فى العملية التعليمية للاستفادة منها وتحقيق الأهداف
+          المنشودة
+        </p>
+        <hr className="w-3/4 my-3" />
+
+        <p className="text-red-500 text-xl mb-2">
+          التعريف ببيئة التعلم الالكترونية:
+        </p>
+
+        <p className="max-w-2xl mb-2 font-light lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 leading-9">
+          سوف يتم دراسة مقرر أجهزة العرض التعليمية في خمس موديولات تعليمية ويتم
+          التنقل بينهم تباعاً بعد الانتهاء من دراسة كل موديول يتم فتح الموديول
+          التالي وهذه الموديولات هي كالأتي:
+          <ul className="list-inside list-disc px-4 pt-3 mb-6">
+            <li className="">
+              الموديول الاول: المفاهيم الأساسية لأجهزة العرض وتصنيفها.
+            </li>
+            <li>الموديول الثاني: جهاز كاميرا تصوير سطح المكتب.</li>
+            <li>الموديول الثالث: جهاز عرض البيانات.</li>
+            <li>الموديول الرابع: جهاز السبورة الذكية.</li>
+            <li>الموديول الخامس: جهاز عرض الهولوجرام.</li>
+          </ul>
+          <p className="font-light lg:text-xl text-gray-500">
+            في النهاية برجاء التوجه الى التعليمات لمعرفة كيفية السير في بيئة
+            التعلم ودراسة المحتوى من خلال النقر على زر التعليمات.
+          </p>
+        </p>
       </div>
     </section>
   );

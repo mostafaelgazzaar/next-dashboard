@@ -30,7 +30,7 @@ export default function NavLinks({
     {
       name: "الصفحة الرئيسية",
       href: "/dashboard/home",
-      icon: MapIcon,
+      icon: HomeIcon,
       expandable: false,
       visible: !isAdmin,
     },
@@ -69,7 +69,7 @@ export default function NavLinks({
       visible: isAdmin,
     },
     {
-      name: "الموديلات ",
+      name: "الموديولات ",
       href: "/dashboard/exams",
       icon: BookOpenIcon,
       expandable: true,
@@ -114,7 +114,7 @@ export default function NavLinks({
               {
                 "bg-sky-100 text-blue-600": pathname === link.href,
               },
-              { hidden: !link.visible },
+              { hidden: !link.visible }
             )}
             onClick={() => link.expandable && handleExamsToggle()}
           >
@@ -144,7 +144,7 @@ export default function NavLinks({
                     {
                       "bg-sky-100 text-blue-600": pathname === subLink.href,
                     },
-                    subLink.status === undefined && "cursor-not-allowed",
+                    subLink.status === undefined && "cursor-not-allowed"
                   )}
                 >
                   <p className="hidden md:block">{subLink.name}</p>

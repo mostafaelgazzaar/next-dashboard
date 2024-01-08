@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import "react-awesome-slider/dist/styles.css";
 import "react-awesome-slider/dist/custom-animations/cube-animation.css";
 import "react-awesome-slider/dist/custom-animations/fall-animation.css";
@@ -11,7 +11,7 @@ import TestComponent from "@/app/ui/exams/test-component";
 import FileUploader from "@/app/ui/exams/file-uploader";
 import { Rating } from "@/app/ui/exams/ratings";
 import { LikeButton } from "@/app/ui/exams/like-button";
-import { User, UserModules, UserPerformance } from "@/app/lib/definitions";
+import { Pdf, User, UserModules, UserPerformance } from "@/app/lib/definitions";
 
 import dynamic from "next/dynamic";
 import {
@@ -21,7 +21,10 @@ import {
 import { Tab } from "@headlessui/react";
 import { useState } from "react";
 import { ArrowUpIcon, VideoCameraIcon } from "@heroicons/react/20/solid";
-import { BookOpenIcon } from "@heroicons/react/24/outline";
+import {
+  BookOpenIcon,
+  CursorArrowRippleIcon,
+} from "@heroicons/react/24/outline";
 import CommentForm from "./comment-form";
 import { Module } from "@/app/lib/definitions";
 import ReactConfetti from "react-confetti";
@@ -35,24 +38,28 @@ import Duration from "@/app/ui/exams/duration";
 import DislikeButton from "./dislike-button";
 import useWindowSize from "@/app/lib/hooks/use-window";
 import Image from "next/image";
+import FeedBack from "@/app/ui/exams/resut";
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 export default function FullPage({
   data,
   user,
   userModule,
   userPerformance,
+  userPdf,
+  tab,
 }: {
   data: any;
   user: User;
   userModule: UserModules;
   userPerformance: UserPerformance;
+  userPdf: Pdf;
+  tab?: string;
 }) {
-  const [selectedTab, setSelectedTab] = useState("goals");
+  const [selectedTab, setSelectedTab] = useState(tab || "goals");
   const d: Module = data;
   const completed = userModule.completed;
   const addedLikes = userModule.added_likes || userModule.added_dislike;
   const userWatchingTime = userPerformance.time_on_platform_seconds || 0;
-
   const handlePlayed = async (played: number): Promise<void> => {
     const duration = Math.round(played);
     if (duration <= userModule.watched_duration) return;
@@ -62,6 +69,12 @@ export default function FullPage({
   };
   const width = useWindowSize().width;
   const height = useWindowSize().height;
+  const tabs: { [key: string]: number } = {
+    goals: 0,
+    Video: 1,
+    test: 2,
+    upload: 3,
+  };
 
   return (
     <div>
@@ -77,7 +90,9 @@ export default function FullPage({
           />
         )}
       </div>
-      <Tab.Group>
+      <Tab.Group
+        defaultIndex={tabs[selectedTab] ? tabs[selectedTab] : tabs["goals"]}
+      >
         <Tab.List className="mb-5 flex list-none flex-row flex-wrap border-b-0 pl-0">
           <Tab
             as="button"
@@ -89,6 +104,7 @@ export default function FullPage({
             } dark:text-gray-400 dark:hover:text-gray-300`}
           >
             الأهداف
+            <CursorArrowRippleIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
           </Tab>
           <Tab
             as="button"
@@ -241,9 +257,7 @@ export default function FullPage({
                         <div className=" justify-center py-3">
                           <h3 className="block text-xl "> اضافة اعجاب</h3>
 
-                          <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white">
-                            تم التفاعل مع المحتوى
-                          </span>
+                          <FeedBack title="تم اضافة اعجاب بنجاح" />
                         </div>
                       )}
                     </div>
@@ -251,9 +265,7 @@ export default function FullPage({
                     {userModule.added_comments && (
                       <div className=" justify-center py-3">
                         <h3 className="block text-xl "> اضافة تعليق</h3>
-                        <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-500 text-white">
-                          تم التعليق على المحتوى
-                        </span>
+                        <FeedBack title="تم اضافة تعليق بنجاح" />
                       </div>
                     )}
                     {!userModule.added_comments && (
@@ -286,11 +298,15 @@ export default function FullPage({
           </Tab.Panel>
           <Tab.Panel>
             <div>
-              <FileUploader
-                moduleId={d.id}
-                userId={user.id}
-                title={d.assignment_title}
-              />
+              {userPdf && userPdf.path ? (
+                <FeedBack title="تم رفع النشاط بنجاج" />
+              ) : (
+                <FileUploader
+                  moduleId={d.id}
+                  userId={user.id}
+                  title={d.assignment_title}
+                />
+              )}
             </div>
           </Tab.Panel>
         </Tab.Panels>

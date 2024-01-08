@@ -8,6 +8,7 @@ import Link from "next/link";
 import Duration from "@/app/ui/exams/duration";
 import { GlobeAltIcon } from "@heroicons/react/24/solid";
 import ProgressLine from "@/app/ui/dashboard/lin-progress";
+import { Tooltip } from "antd";
 
 export default function PerformanceTable({
   data,
@@ -19,8 +20,11 @@ export default function PerformanceTable({
   withDetails?: boolean;
 }) {
   return (
-    <table role="table" className="w-full min-w-[500px] overflow-x-scroll">
-      <thead>
+    <table
+      role="table"
+      className="w-full min-w-[500px] overflow-x-scroll shadow-md rounded-lg "
+    >
+      <thead className="bg-gray-50 p-2">
         <tr role="row">
           <th
             colSpan={1}
@@ -56,18 +60,13 @@ export default function PerformanceTable({
       </thead>
       <tbody role="rowgroup" className="px-4">
         <tr role="row">
-          <td className="py-3 text-sm" role="cell">
+          <td className="py-3 text-sm px-3" role="cell">
             <div className="flex items-center gap-2">
               <div className="h-[30px] w-[30px] rounded-full">
                 <BookOpenIcon />
               </div>
               <p className="text-sm font-medium text-navy-700 dark:text-white">
                 مشاهدة المحتوي
-                {withDetails && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {" -  20 %"}
-                  </span>
-                )}
               </p>
             </div>
           </td>
@@ -89,7 +88,7 @@ export default function PerformanceTable({
                   ) : (
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                       {withDetails ? (
-                        <Link href={`/dashboard/exams/${moduleId}`}>
+                        <Link href={`/dashboard/exams/${moduleId}?tab=Video`}>
                           اعادة المشاهدة{" "}
                         </Link>
                       ) : (
@@ -103,27 +102,27 @@ export default function PerformanceTable({
           </td>
           <td className=" text-lg" role="cell">
             {withDetails && (
-              <ProgressLine
-                percentage={Math.round(
-                  (data.watchedDuration / data.moduleDuration) * 100
-                )}
-              />
+              <Tooltip
+                placement={"topRight"}
+                title="النسبة التي شاهدتها من المحتوي"
+              >
+                <ProgressLine
+                  percentage={Math.round(
+                    (data.watchedDuration / data.moduleDuration) * 100,
+                  )}
+                />
+              </Tooltip>
             )}
           </td>
         </tr>
         <tr role="row">
-          <td className="py-3 text-sm" role="cell">
+          <td className="py-3 text-sm px-3" role="cell">
             <div className="flex items-center gap-2">
               <div className="h-[30px] w-[30px] rounded-full">
                 <BookOpenIcon />
               </div>
               <p className="text-sm font-medium text-navy-700 dark:text-white">
                 نتائج الاختبار
-                {withDetails && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {" -  20 %"}
-                  </span>
-                )}
               </p>
             </div>
           </td>
@@ -145,7 +144,7 @@ export default function PerformanceTable({
                       {withDetails ? (
                         <>
                           {" "}
-                          <Link href={`/dashboard/exams/${moduleId}`}>
+                          <Link href={`/dashboard/exams/${moduleId}?tab=test`}>
                             اعادة الاختبار{" "}
                           </Link>
                         </>
@@ -160,25 +159,22 @@ export default function PerformanceTable({
           </td>
           {withDetails && (
             <td className=" text-lg" role="cell">
-              <ProgressLine
-                percentage={Math.round((data.moduleResultScore / 5) * 100)}
-              />
+              <Tooltip placement="topRight" title="نتيجة الاختبار الكلية">
+                <ProgressLine
+                  percentage={Math.round((data.moduleResultScore / 5) * 100)}
+                />
+              </Tooltip>
             </td>
           )}
         </tr>
         <tr role="row">
-          <td className="py-3 text-sm" role="cell">
+          <td className="py-3 text-sm px-3" role="cell">
             <div className="flex items-center gap-2">
               <div className="h-[30px] w-[30px] rounded-full">
                 <ChatBubbleOvalLeftIcon />
               </div>
               <p className="text-sm font-medium text-navy-700 dark:text-white">
                 التعليقات
-                {withDetails && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {" -  20 %"}
-                  </span>
-                )}
               </p>
             </div>
           </td>
@@ -199,7 +195,7 @@ export default function PerformanceTable({
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                       {withDetails ? (
                         <>
-                          <Link href={`/dashboard/exams/${moduleId}`}>
+                          <Link href={`/dashboard/exams/${moduleId}?tab=Video`}>
                             {" "}
                             اضافة تعليق
                           </Link>
@@ -220,18 +216,13 @@ export default function PerformanceTable({
           )}
         </tr>
         <tr role="row">
-          <td className="py-3 text-sm" role="cell">
+          <td className="py-3 text-sm px-3" role="cell">
             <div className="flex items-center gap-2">
               <div className="h-[30px] w-[30px] rounded-full">
                 <HandThumbUpIcon />
               </div>
               <p className="text-sm font-medium text-navy-700 dark:text-white">
                 اعجبك المحتوي
-                {withDetails && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {" -  20 %"}
-                  </span>
-                )}
               </p>
             </div>
           </td>
@@ -252,7 +243,7 @@ export default function PerformanceTable({
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                       {withDetails ? (
                         <>
-                          <Link href={`/dashboard/exams/${moduleId}`}>
+                          <Link href={`/dashboard/exams/${moduleId}?tab=Video`}>
                             اضافة اعجاب
                           </Link>
                         </>
@@ -273,18 +264,13 @@ export default function PerformanceTable({
         </tr>
 
         <tr role="row">
-          <td className="py-3 text-sm" role="cell">
+          <td className="py-3 text-sm px-3" role="cell">
             <div className="flex items-center gap-2">
               <div className="h-[30px] w-[30px] rounded-full">
                 <CloudArrowUpIcon />
               </div>
               <p className="text-sm font-medium text-navy-700 dark:text-white">
                 النشاط
-                {withDetails && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {"-  20 %"}
-                  </span>
-                )}
               </p>
             </div>
           </td>
@@ -305,7 +291,9 @@ export default function PerformanceTable({
                     <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                       {withDetails ? (
                         <>
-                          <Link href={`/dashboard/exams/${moduleId}`}>
+                          <Link
+                            href={`/dashboard/exams/${moduleId}?tab=upload`}
+                          >
                             ارفع النشاط
                           </Link>
                         </>
@@ -325,7 +313,7 @@ export default function PerformanceTable({
           )}
         </tr>
         <tr role="row">
-          <td className="py-3 text-sm" role="cell">
+          <td className="py-3 text-sm px-3" role="cell">
             <div className="flex items-center gap-2">
               <p className="text-sm font-medium text-navy-700 dark:text-white">
                 النتيجة الكلية
@@ -341,14 +329,16 @@ export default function PerformanceTable({
           <td></td>
           {withDetails && (
             <td className="py-3 text-sm" role="cell">
-              <ProgressLine percentage={data.percentage} />
+              <Tooltip placement="topRight" title="النسبة الكلية للموديول">
+                <ProgressLine percentage={data.percentage} />
+              </Tooltip>
             </td>
           )}
         </tr>
 
         {withDetails && (
           <tr role="row">
-            <td className="py-3 text-sm" role="cell">
+            <td className="py-3 text-sm px-3" role="cell">
               <div className="flex items-center gap-2">
                 <div className="h-[30px] w-[30px] rounded-full">
                   <GlobeAltIcon />

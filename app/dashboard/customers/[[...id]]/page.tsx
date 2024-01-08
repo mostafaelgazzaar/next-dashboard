@@ -19,6 +19,9 @@ import {
 } from "@/app/lib/data/modules-data";
 import { LineChartV2 } from "@/app/ui/dashboard/point-line-chart";
 import ProgressCircle from "@/app/ui/dashboard/progress-circle";
+import { Suspense } from "react";
+import { CardSkeleton, InvoiceSkeleton } from "@/app/ui/skeletons";
+import Wrapper from "@/app/ui/customers/wrapper";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Page({
@@ -92,7 +95,7 @@ export default async function Page({
   ];
 
   const options = {
-    title: "مستويات تفاعل الطالب ",
+    title: "  تقييم أدائك بالموديول  ",
     is3D: true,
   };
 
@@ -110,22 +113,28 @@ export default async function Page({
       <Dropdown />
       <div className="flex justify-between ">
         {user?.env === "LOW" && (
-          <div className="mt-5 w-2/3  justify-center">
-            <div className="flex-col">
+          <div className="mt-5 w-2/3  justify-center flex">
+            <div className="w-1/2">
               <p>النسبة المئوية لمئشرات الطالب</p>
-              <ProgressCircle percentage={percentage} />
+              <Suspense fallback={<CardSkeleton />}>
+                <ProgressCircle percentage={percentage} />
+              </Suspense>
             </div>
-            <CircleChart
-              data={data}
-              options={options}
-              percentage={false}
-            ></CircleChart>
+            <div className="w-1/2">
+              <Suspense fallback={<CardSkeleton />}>
+                <CircleChart
+                  data={data}
+                  options={options}
+                  percentage={false}
+                ></CircleChart>
+              </Suspense>
+            </div>
             <hr className="text-gray-500 text-3xl my-3" />
             <p className="text-center text-2xl ">
               انت الان في بيئة التعليم المنخفض{" "}
             </p>
             <p className="text-xl text-center">
-              لقد حصلا علي نسبة مئوية قدرها
+              لقد حصلت علي نسبة مئوية قدرها
               <span className=" text-2xl text-green-500 px-2">
                 {percentage}%
               </span>{" "}
@@ -138,26 +147,48 @@ export default async function Page({
           </div>
         )}
         {(user?.env === "HIGH" || user.env === "MEDIUM") && (
-          <section className="mt-5 ml-1 w-3/4">
-            <div className="flex-col">
-              <p className="mb-2 ">النسبة المئوية لمؤشرات الطالب</p>
-              <ProgressCircle percentage={percentage} />
+          <section className="mt-5 ml-1 w-3/4 flex-col ">
+            <div className="flex gap-5">
+              <div className="w-1/3">
+                <Wrapper>
+                  <div className="grid gap-y-9 m-auto">
+                    <h2 className="text-xl row-span-3 ">
+                      تقييم أدائك بالموديول{" "}
+                    </h2>
+                    <Suspense fallback={<CardSkeleton />}>
+                      <ProgressCircle percentage={percentage} />
+                    </Suspense>
+                  </div>
+                </Wrapper>
+              </div>
+              <div className="w-2/3">
+                <Wrapper>
+                  <Suspense fallback={<CardSkeleton />}>
+                    <CircleChart
+                      data={data}
+                      options={options}
+                      percentage={true}
+                    ></CircleChart>
+                  </Suspense>
+                </Wrapper>
+              </div>
             </div>
-            <CircleChart
-              data={data}
-              options={options}
-              percentage={true}
-            ></CircleChart>
-            <hr className="text-gray-500 text-3xl my-3" />
 
-            <LineChartV2 title={lineChartTitle} data={lineChartData} />
+            <hr className="text-gray-500 text-3xl my-3" />
+            <div className=" border shadow-md p-5 hover:bg-gray-100 ">
+              <Suspense fallback={<CardSkeleton />}>
+                <LineChartV2 title={lineChartTitle} data={lineChartData} />
+              </Suspense>
+            </div>
             <hr className="text-gray-500 text-3xl my-3" />
             <div>
-              <PerformanceTable
-                data={performanceData}
-                moduleId={moduleId}
-                withDetails={user.env === "HIGH"}
-              />
+              <Suspense fallback={<InvoiceSkeleton />}>
+                <PerformanceTable
+                  data={performanceData}
+                  moduleId={moduleId}
+                  withDetails={user.env === "HIGH"}
+                />
+              </Suspense>
             </div>
             <hr className="text-gray-500 text-3xl my-3" />
 

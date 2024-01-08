@@ -29,7 +29,7 @@ export default function MainSection() {
                 </svg>
                 <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
                   التعرف على المفاهيم والمعارف الأساسية المرتبطة بأجهزة العرض
-                  الضوئي.{" "}
+                  الضوئي{" "}
                 </span>
               </li>
               <li className="flex space-x-3">
@@ -46,7 +46,7 @@ export default function MainSection() {
                   ></path>
                 </svg>
                 <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                  التعرف على جهاز كاميرا تصوير سطح المكتب.
+                  التعرف على جهاز كاميرا تصوير سطح المكتب.{" "}
                 </span>
               </li>
 
@@ -100,7 +100,7 @@ export default function MainSection() {
                   ></path>
                 </svg>
                 <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                  التعرف على جهاز العرض الهولوجرام.{" "}
+                  التعرف على جهاز العرض الهولوجرام.
                 </span>
               </li>
             </ul>

@@ -72,11 +72,18 @@ export async function usersWithPdfPages(moduleId: number) {
   const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
   return totalPages;
 }
-// export type Module = {
-//   id: string;
-//   video: string;
-//   title: string;
-//   description: string;
-//   questions: string;
-//   assignment_title: string;
-// };
+
+export async function getUserModulePdf(
+  user_id: string,
+  module_id: number,
+): Promise<Pdf> {
+  try {
+    const data = await sql<Pdf>`
+            SELECT * FROM pdfs WHERE user_id = ${user_id} AND module_id = ${module_id}
+        `;
+    return data.rows[0];
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
+  }
+}
