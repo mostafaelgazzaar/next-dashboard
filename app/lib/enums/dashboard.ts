@@ -4,9 +4,9 @@ export enum ENVIROMENT {
   low = "LOW",
 }
 export enum ENVIROMENTAR {
-  high = "أول",
-  medium = "ثاني",
-  low = "ثالث",
+  high = "الأول",
+  medium = "الثاني",
+  low = "الثالث",
 }
 
 export enum RoleAR {

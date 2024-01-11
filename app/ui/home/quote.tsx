@@ -2,9 +2,9 @@ export default function Quote() {
   return (
     <section className="bg-gray-50 dark:bg-gray-800">
       <div className="max-w-screen-xl px-4 py-8 mx-auto  lg:py-24 lg:px-6">
-        <h3 className="text-2xl mb-2">مقدمة عامة:</h3>
+        <h3 className="text-3xl font-bold mb-2">مقدمة عامة:</h3>
         <p className="text-red-500 text-xl mb-2 ">
-          عزيزي الطالب لماذا يتم دراسة ر أعرز العرض التعليمية؟
+          عزيزي الطالب لماذا يتم دراسة مقرر أجهزة العرض التعليمية؟{" "}
         </p>
         <p className="max-w-2xl mb-2 font-light lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 leading-9">
           يعد الاستعانة بالتكنولوجيا الحديثة فى العملية التعليمية أمر لا غنى عنه
@@ -41,10 +41,6 @@ export default function Quote() {
             <li>الموديول الرابع: جهاز السبورة الذكية.</li>
             <li>الموديول الخامس: جهاز عرض الهولوجرام.</li>
           </ul>
-          <p className="font-light lg:text-xl text-gray-500">
-            في النهاية برجاء التوجه الى التعليمات لمعرفة كيفية السير في بيئة
-            التعلم ودراسة المحتوى من خلال النقر على زر التعليمات.
-          </p>
         </p>
       </div>
     </section>

@@ -10,6 +10,7 @@ import Image from "next/image";
 export default function Instructions() {
   return (
     <section className="bg-gray-50 dark:bg-gray-800">
+      <h2 className="text-4xl font-bold p-2 mr-5">التعليمات</h2>
       <div className="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
         <div className="items-center gap-5 lg:grid lg:grid-cols-2 xl:gap-16">
           <Image
@@ -20,9 +21,8 @@ export default function Instructions() {
             alt="feature image 2"
           />
           <div className="text-gray-500 sm:text-lg dark:text-gray-400">
-            <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-              أولا: التعليمات العامة لسهولة دراسة المحتوى فى بيئة التعلم
-              الالكترونية:{" "}
+            <h2 className="mb-4 text-3xl font-bold  text-gray-900 dark:text-white">
+              التعليمات العامة لسهولة دراسة المحتوى فى بيئة التعلم الالكترونية:{" "}
             </h2>
             <p className="mb-8 font-light lg:text-xl">
               عزيزي الطالب إليك بعض التعليمات التي تساعدك في السير داخل البيئة
@@ -105,6 +105,32 @@ export default function Instructions() {
                 </svg>
                 <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
                   كل موديول يحتوي على أربع أقسام وهي:
+                  <ul role="list" className="flex pt-3 gap-8">
+                    <li className="flex space-x-3">
+                      <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        الأهداف{" "}
+                        <CursorArrowRippleIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
+                      </span>
+                    </li>
+                    <li className="flex space-x-3">
+                      <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        المحتوى
+                        <VideoCameraIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
+                      </span>
+                    </li>
+                    <li className="flex space-x-3">
+                      <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        الاختبار البنائي{" "}
+                        <BookOpenIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
+                      </span>
+                    </li>
+                    <li className="flex space-x-3">
+                      <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        الانشطة{" "}
+                        <ArrowUpIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
+                      </span>
+                    </li>
+                  </ul>
                   <ul className="list-disc py-3 px-5">
                     <li>
                       {" "}
@@ -130,7 +156,7 @@ export default function Instructions() {
                     </li>
                     <li>
                       الأنشطة: عليك التوجه الى النشاط المطلوب ورفعه على البيئة
-                      من خلال النقر على واختيار الملف من جهازك والنقر على{" "}
+                      من خلال النقر على{" "}
                       <span className="border border-purple-400 rounded-md ">
                         Choose file
                       </span>{" "}
@@ -221,94 +247,6 @@ export default function Instructions() {
               فى النهاية نتمنى لك رحلة تعليمية ممتعة فى بيئة التعلم وتحقيق أهداف
               التعلم.
             </p>
-          </div>
-        </div>
-      </div>
-      <div className="flex max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
-        <div className="items-center gap-5 lg:grid lg:grid-cols-2 xl:gap-16">
-          <div className="text-gray-500 sm:text-lg dark:text-gray-400">
-            <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-              ثانياً: التعرف على أدوات البيئة لسهولة الإبحار والتنقل فى بيئة
-              التعلم:{" "}
-            </h2>
-
-            <ul
-              role="list"
-              className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"
-            >
-              <li className="flex space-x-3">
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400  ml-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                  الأهداف{" "}
-                  <CursorArrowRippleIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
-                </span>
-              </li>
-              <li className="flex space-x-3">
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400  ml-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                  المحتوى
-                  <VideoCameraIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
-                </span>
-              </li>
-              <li className="flex space-x-3">
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400  ml-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                  الاختبار البنائي{" "}
-                  <BookOpenIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
-                </span>
-              </li>
-              <li className="flex space-x-3">
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400  ml-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                  الانشطة{" "}
-                  <ArrowUpIcon className="inline-block w-5 h-5 mr-2 -mt-1" />
-                </span>
-              </li>
-            </ul>
           </div>
         </div>
       </div>

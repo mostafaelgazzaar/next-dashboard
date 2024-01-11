@@ -18,7 +18,7 @@ export default function Features() {
       <div className="px-4 py-20 mx-auto max-w-7xl">
         <div className="max-w-xl mx-auto">
           <h1 className="mb-4 text-3xl font-bold text-center dark:text-white">
-            ادوات الإبحار والتنقل داخل البيئة{" "}
+            ثانياً: ادوات الإبحار والتنقل داخل البيئة{" "}
           </h1>
           <p className="mb-16 text-base text-center text-gray-500">
             اليك بعض المميزات التي تقدمها لك منصة الكترونية للتعليم الالكتروني

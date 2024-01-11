@@ -17,9 +17,8 @@ export default function Navbar({ user }: { user: User }) {
             />
           </div>
         </a>
-        <div className=" flex flex-col ">
+        <div className=" mt-3 ">
           <span className="text-2xl "> أجهزة العرض التعليمية</span>
-          <span className="text-gray-500 block"> بلوحة معلومات المتعلم </span>
         </div>
       </div>
 

@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { MapIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { ChartBarIcon } from "@heroicons/react/20/solid";
 
 export default function MainSection() {
   return (
@@ -104,6 +106,10 @@ export default function MainSection() {
                 </span>
               </li>
             </ul>
+            <p className="font-light lg:text-xl text-gray-500">
+              في النهاية برجاء التوجه الى التعليمات لمعرفة كيفية السير في بيئة
+              التعلم ودراسة المحتوى من خلال النقر على زر التعليمات.
+            </p>
           </div>
           <Image
             className="hidden  mb-4 rounded-lg lg:mb-0 lg:flex  mr-4"
@@ -112,6 +118,23 @@ export default function MainSection() {
             height={200}
             alt="dashboard feature image"
           />
+
+          <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
+            <a
+              href="/dashboard/exams/1"
+              className=" ml-3 inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200  bg-white rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+            >
+              <PencilSquareIcon className="w-5 h-5 ml-2" />
+              التوجة لدراسة المحتوي
+            </a>
+            <a
+              href="/dashboard/information"
+              className="inline-flex items-center justify-center w-full px-5 py-3 mb-2 mr-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:w-auto focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            >
+              <MapIcon className="w-5 h-5 ml-2" />
+              التوجة الي التعليمات{" "}
+            </a>
+          </div>
         </div>
 
         {/*<div className="items-center gap-5 lg:grid lg:grid-cols-2 xl:gap-16">*/}

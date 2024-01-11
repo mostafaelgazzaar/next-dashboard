@@ -57,10 +57,10 @@ export default async function Page({
     otherModules.map(async (module) => {
       const { percentage } = await checkUserCompletion(
         userId,
-        +module.module_id
+        +module.module_id,
       );
       return { moduleId: +module.module_id, percentage: percentage };
-    })
+    }),
   );
   const modulePercentage = [
     { moduleId: moduleId, percentage: percentage },
@@ -113,38 +113,48 @@ export default async function Page({
       <Dropdown />
       <div className="flex justify-between ">
         {user?.env === "LOW" && (
-          <div className="mt-5 w-2/3  justify-center flex">
-            <div className="w-1/2">
-              <p>النسبة المئوية لمئشرات الطالب</p>
-              <Suspense fallback={<CardSkeleton />}>
-                <ProgressCircle percentage={percentage} />
-              </Suspense>
+          <section className="mt-5 ml-1 w-3/4 flex-col ">
+            <div className="w-full p-5">
+              <hr className="text-gray-500 text-3xl my-3" />
+              <p className="text-center text-2xl ">
+                انت الان في بيئة التعليم المنخفض{" "}
+              </p>
+              <p className="text-xl text-center">
+                لقد حصلت علي نسبة مئوية قدرها
+                <span className=" text-2xl text-green-500 px-2">
+                  {percentage}%
+                </span>{" "}
+                في هذا المحتوي
+              </p>
             </div>
-            <div className="w-1/2">
-              <Suspense fallback={<CardSkeleton />}>
-                <CircleChart
-                  data={data}
-                  options={options}
-                  percentage={false}
-                ></CircleChart>
-              </Suspense>
+            <div className="flex gap-7">
+              <div className="w-1/3">
+                <Wrapper>
+                  <div className="grid gap-y-9 m-auto">
+                    <p>النسبة المئوية لمئشرات الطالب</p>
+                    <Suspense fallback={<CardSkeleton />}>
+                      <ProgressCircle percentage={percentage} />
+                    </Suspense>
+                  </div>
+                </Wrapper>
+              </div>
+              <div className="w-2/3">
+                <Wrapper>
+                  <Suspense fallback={<CardSkeleton />}>
+                    <CircleChart
+                      data={data}
+                      options={options}
+                      percentage={false}
+                    ></CircleChart>
+                  </Suspense>
+                </Wrapper>
+              </div>
             </div>
-            <hr className="text-gray-500 text-3xl my-3" />
-            <p className="text-center text-2xl ">
-              انت الان في بيئة التعليم المنخفض{" "}
-            </p>
-            <p className="text-xl text-center">
-              لقد حصلت علي نسبة مئوية قدرها
-              <span className=" text-2xl text-green-500 px-2">
-                {percentage}%
-              </span>{" "}
-              في هذا المحتوي
-            </p>
 
             <div className="flex justify-center mt-5">
               <Rating value={ratingValue / 2} disabled={true} />
             </div>
-          </div>
+          </section>
         )}
         {(user?.env === "HIGH" || user.env === "MEDIUM") && (
           <section className="mt-5 ml-1 w-3/4 flex-col ">
