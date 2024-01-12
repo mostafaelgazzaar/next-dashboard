@@ -20,7 +20,7 @@ export default function Features() {
           <h1 className="mb-4 text-3xl font-bold text-center dark:text-white">
             ثانياً: ادوات الإبحار والتنقل داخل البيئة{" "}
           </h1>
-          <p className="mb-16 text-base text-center text-gray-500">
+          <p className="mb-16 text-base text-center text-gray-500 text-justify">
             اليك بعض المميزات التي تقدمها لك منصة الكترونية للتعليم الالكتروني
             والتي من خلالها يمكنك الاستفادة من الدورات التدريبية والمحاضرات
           </p>

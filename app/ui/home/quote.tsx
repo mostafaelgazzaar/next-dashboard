@@ -1,12 +1,12 @@
 export default function Quote() {
   return (
     <section className="bg-gray-50 dark:bg-gray-800">
-      <div className="max-w-screen-xl px-4 py-8 mx-auto  lg:py-24 lg:px-6">
+      <div className="max-w-screen-xl px-4 py-8 mx-auto  lg:py-8 lg:px-6">
         <h3 className="text-3xl font-bold mb-2">مقدمة عامة:</h3>
-        <p className="text-red-500 text-xl mb-2 ">
+        <p className="text-red-500 text-xl mb-3">
           عزيزي الطالب لماذا يتم دراسة مقرر أجهزة العرض التعليمية؟{" "}
         </p>
-        <p className="max-w-2xl mb-2 font-light lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 leading-9">
+        <p className="w-2/3 mb-2 font-light lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 leading-10 text-justify ">
           يعد الاستعانة بالتكنولوجيا الحديثة فى العملية التعليمية أمر لا غنى عنه
           وأحد الدعائم الأساسية فى منظومة التعلم، حيث إن استخدامها يتيح
           للمتعلمين أشكالاً جديدة من الاتصال وطرقاً جديدة فى التواصل وحل
@@ -24,24 +24,22 @@ export default function Quote() {
         </p>
         <hr className="w-3/4 my-3" />
 
-        <p className="text-red-500 text-xl mb-2">
+        <p className="text-red-500 text-xl mb-3">
           التعريف ببيئة التعلم الالكترونية:
         </p>
 
-        <p className="max-w-2xl mb-2 font-light lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 leading-9">
+        <p className="max-w-2xl mb-2 font-light lg:mb-4 md:text-lg lg:text-xl dark:text-gray-400 leading-10 text-justify">
           سوف يتم دراسة مقرر أجهزة العرض التعليمية في خمس موديولات تعليمية ويتم
           التنقل بينهم تباعاً بعد الانتهاء من دراسة كل موديول يتم فتح الموديول
           التالي وهذه الموديولات هي كالأتي:
-          <ul className="list-inside list-disc px-4 pt-3 mb-6">
-            <li className="">
-              الموديول الاول: المفاهيم الأساسية لأجهزة العرض وتصنيفها.
-            </li>
-            <li>الموديول الثاني: جهاز كاميرا تصوير سطح المكتب.</li>
-            <li>الموديول الثالث: جهاز عرض البيانات.</li>
-            <li>الموديول الرابع: جهاز السبورة الذكية.</li>
-            <li>الموديول الخامس: جهاز عرض الهولوجرام.</li>
-          </ul>
         </p>
+        <ul className="list-inside list-disc px-4 pt-3 mb-6">
+          <li>الموديول الاول: المفاهيم الأساسية لأجهزة العرض وتصنيفها.</li>
+          <li>الموديول الثاني: جهاز كاميرا تصوير سطح المكتب.</li>
+          <li>الموديول الثالث: جهاز عرض البيانات.</li>
+          <li>الموديول الرابع: جهاز السبورة الذكية.</li>
+          <li>الموديول الخامس: جهاز عرض الهولوجرام.</li>
+        </ul>
       </div>
     </section>
   );

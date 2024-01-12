@@ -12,14 +12,7 @@ export default function Instructions() {
     <section className="bg-gray-50 dark:bg-gray-800">
       <h2 className="text-4xl font-bold p-2 mr-5">التعليمات</h2>
       <div className="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
-        <div className="items-center gap-5 lg:grid lg:grid-cols-2 xl:gap-16">
-          <Image
-            className="hidden  mb-4 rounded-lg lg:mb-0 lg:flex"
-            src="/goals.png"
-            width={300}
-            height={200}
-            alt="feature image 2"
-          />
+        <div className="items-center gap-5 lg:grid lg:justify-stretch lg:grid-cols-2 xl:gap-16">
           <div className="text-gray-500 sm:text-lg dark:text-gray-400">
             <h2 className="mb-4 text-3xl font-bold  text-gray-900 dark:text-white">
               التعليمات العامة لسهولة دراسة المحتوى فى بيئة التعلم الالكترونية:{" "}
@@ -45,7 +38,7 @@ export default function Instructions() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white text-justify">
                   عزيزي الطالب فى البداية بعد تسجيل دخولك إلى بيئة التعلم سوف
                   تتواجد في الصفحة الرئيسية التي من خلالها سوف تتعرف على مقدمة
                   عامة والتعريف ببيئة التعلم الالكترونية والاهداف العامة للمحتوى
@@ -65,7 +58,7 @@ export default function Instructions() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white text-justify">
                   سوف تتوجه الأن الى تبويب موديولات والذي يشمل على خمس موديولات
                   يتم دراستها تباعاً من الموديول الاول وصولاً للموديول الخامس قم
                   بالنقر على الموديول الاول لتبدأ رحلة التعلم.
@@ -84,7 +77,7 @@ export default function Instructions() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white text-justify">
                   عليك معرفة انه لن تتمكن من الانتقال الى الموديول الآخر إلى بعد
                   حصولك على نسبة النجاح وإتقان التعلم فى ذلك الموديول وهي 55%
                   والتي تظهر على لوحة المعلومات.
@@ -136,14 +129,14 @@ export default function Instructions() {
                       {" "}
                       الأهداف: تشمل على الهدف العام والأهداف الإجرائية للموديول.
                     </li>
-                    <li>
+                    <li className="text-justify">
                       المحتوى: يشمل على ملف فيديو يشرح المحتوى الخاص بالموديول
                       وسوف يتم تسجيل مدة مشاهدتك للفيديو ويظهر لك أيضاً التعليق
                       والاعجاب بالمحتوى ليمكنك التفاعل مع المحتوى وتقيمك له
                       بالنجوم وعليك معرفة ان قيامك بذلك سوف يظهر على لوحة
                       المعلومات لتقييم أدائك.
                     </li>
-                    <li>
+                    <li className="text-justify">
                       الاختبارات: بعد دراسة المحتوى عليك التوجه الى الاختبارات
                       والتي تشمل على خمس أسئلة اختيار من متعدد عليك الإجابة عنها
                       والنقر على زر{" "}
@@ -178,7 +171,7 @@ export default function Instructions() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white text-justify">
                   بعد دراسة كل موديول والانتهاء من الاختبارات والأنشطة المطلوبة
                   عليك التوجه الى لوحة معلومات للتعرف على مؤشرات ادائك وإتقانك
                   فى الموديول التعليمي ومن خلالها يسمح لك بالانتقال إلى الموديول
@@ -204,7 +197,7 @@ export default function Instructions() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white text-justify">
                   ملحوظة إذا كنت من طلاب بيئة التعلم المستوى الأول سوف تظهر
                   مؤشرات ادائك على لوحة المعلومات في شكل دائري بالنسبة المئوية
                   التي حصلت عليها بشكل مختصر واعطائك تقيم نجمي للأداء كمحفز، أما
@@ -236,7 +229,7 @@ export default function Instructions() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                <span className="text-base font-medium leading-tight text-gray-900 dark:text-white text-justify">
                   وفى حالة وجود أي استفسار يمكن التواصل مع المعلم من خلال سبل
                   التواصل المختلفة الموجودة في تبويب تواصل معنا وسوف يتم الرد
                   على استفساراتك.{" "}
@@ -248,6 +241,13 @@ export default function Instructions() {
               التعلم.
             </p>
           </div>
+          <Image
+            className="hidden  mb-4 rounded-lg lg:mb-0 lg:flex mr-20"
+            src="/goals.png"
+            width={400}
+            height={200}
+            alt="feature image 2"
+          />
         </div>
       </div>
     </section>
