@@ -3,6 +3,7 @@ import {
   BookOpenIcon,
   ChevronDownIcon,
   DocumentDuplicateIcon,
+  HeartIcon,
   HomeIcon,
   MapIcon,
   UserGroupIcon,
@@ -51,6 +52,13 @@ export default function NavLinks({
       name: "ملفات الانشطة ",
       href: "/dashboard/invoices",
       icon: DocumentDuplicateIcon,
+      expandable: false,
+      visible: isAdmin,
+    },
+    {
+      name: "التفاعلات",
+      href: "/dashboard/activity",
+      icon: HeartIcon,
       expandable: false,
       visible: isAdmin,
     },
@@ -114,7 +122,7 @@ export default function NavLinks({
               {
                 "bg-sky-100 text-blue-600": pathname === link.href,
               },
-              { hidden: !link.visible }
+              { hidden: !link.visible },
             )}
             onClick={() => link.expandable && handleExamsToggle()}
           >
@@ -144,7 +152,7 @@ export default function NavLinks({
                     {
                       "bg-sky-100 text-blue-600": pathname === subLink.href,
                     },
-                    subLink.status === undefined && "cursor-not-allowed"
+                    subLink.status === undefined && "cursor-not-allowed",
                   )}
                 >
                   <p className="hidden md:block">{subLink.name}</p>

@@ -179,3 +179,37 @@ export type ModuleEnvCounts = {
   env: "HIGH" | "MEDIUM" | "LOW";
   count: number;
 };
+/*
+[
+  {
+    id: '3eae11a7-35a2-4be3-b8dc-692ed45b6439',
+    name: 'Ahmed',
+    email: 'ahmed@nextmail.com',
+    password: '$2b$10$6PS/Rf.2jgTnDLclsD8u2eXJib7m6vJ0g8Gs3X5h7xj.EylTKk2eq',
+    role: 'STUDENT',
+    env: 'MEDIUM',
+    userModule: {
+      user_id: '3eae11a7-35a2-4be3-b8dc-692ed45b6439',
+      module_id: 1,
+      completed: true,
+      added_comments: 'ممتاز',
+      added_likes: true,
+      timestamp: 2023-12-04T07:01:16.000Z,
+      added_dislike: false,
+      watched_duration: 461
+    }
+  },
+]
+transform to type
+
+ */
+
+export type UsersWithUserModules = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  env: string;
+  userModule: UserModules;
+};

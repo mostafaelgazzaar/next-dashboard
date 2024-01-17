@@ -9,7 +9,7 @@ export const formatCurrency = (amount: number) => {
 
 export const formatDateToLocal = (
   dateStr: string | undefined,
-  locale: string = "en-US"
+  locale: string = "en-US",
 ) => {
   let date = new Date();
   if (dateStr) {
@@ -69,4 +69,10 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     "...",
     totalPages,
   ];
+};
+
+export const convertSecondsToMinutesAndSeconds = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
 };

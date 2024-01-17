@@ -2,7 +2,7 @@ import Image from "next/image";
 import yg from "../../../public/instructor/yg.jpg";
 import sm from "../../../public/instructor/sm.jpg";
 import mf from "../../../public/instructor/mf.jpg";
-import aya from "../../../public/instructor/aya.png";
+import aya from "../../../public/instructor/aya.jpeg";
 
 export default function Pages() {
   return (

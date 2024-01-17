@@ -15,7 +15,8 @@ export default function Instructions() {
         <div className="items-center gap-5 lg:grid lg:justify-stretch lg:grid-cols-2 xl:gap-16">
           <div className="text-gray-500 sm:text-lg dark:text-gray-400">
             <h2 className="mb-4 text-3xl font-bold  text-gray-900 dark:text-white">
-              التعليمات العامة لسهولة دراسة المحتوى فى بيئة التعلم الالكترونية:{" "}
+              أولاً : التعليمات العامة لسهولة دراسة المحتوى فى بيئة التعلم
+              الالكترونية
             </h2>
             <p className="mb-8 font-light lg:text-xl">
               عزيزي الطالب إليك بعض التعليمات التي تساعدك في السير داخل البيئة

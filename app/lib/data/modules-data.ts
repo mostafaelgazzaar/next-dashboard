@@ -1,5 +1,11 @@
 import { sql } from "@vercel/postgres";
-import { Pdf, User, UserModules, Module } from "@/app/lib/definitions";
+import {
+  Pdf,
+  User,
+  UserModules,
+  Module,
+  UsersWithUserModules,
+} from "@/app/lib/definitions";
 
 const ITEMS_PER_PAGE = 6;
 export async function fetchModules() {
@@ -60,6 +66,44 @@ export async function getUserWithPdf(module_id: number, currentPage: number) {
       ...user,
       pdf: pdfs.rows.find((pdf) => pdf.user_id === user.id),
     }));
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the modules.");
+  }
+}
+
+export async function getUserWithUSerModules(
+  moduleId: number,
+  currentPage: number,
+  query: string,
+): Promise<UsersWithUserModules[]> {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  try {
+    const data = await sql<UserModules>`
+            SELECT * FROM user_modules WHERE module_id = ${moduleId} LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        `;
+    const usersIds = data.rows.map((userModule) => userModule.user_id);
+    if (usersIds.length === 0) return [] as UsersWithUserModules[];
+    let users: User[] = [];
+    for (let i = 0; i < usersIds.length; i++) {
+      const user = await sql<User>`
+            SELECT * FROM users WHERE id = ${usersIds[i]}
+        `;
+      users.push(user.rows[0]);
+    }
+    if (query) {
+      users = users.filter((user) =>
+        user.name.toLowerCase().includes(query.toLowerCase()),
+      );
+    }
+    return users.map((user) => {
+      return {
+        ...user,
+        userModule: data.rows.find(
+          (userModule) => userModule.user_id === user.id,
+        ),
+      } as UsersWithUserModules;
+    });
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch the modules.");
