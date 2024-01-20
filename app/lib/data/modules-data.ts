@@ -6,6 +6,7 @@ import {
   Module,
   UsersWithUserModules,
 } from "@/app/lib/definitions";
+import { unstable_noStore as noStore } from "next/dist/server/web/spec-extension/unstable-no-store";
 
 const ITEMS_PER_PAGE = 6;
 export async function fetchModules() {
@@ -122,6 +123,16 @@ export async function usersWithPdfPages(moduleId: number) {
   return totalPages;
 }
 
+export async function usersCount() {
+  try {
+    noStore();
+    const count = await sql`SELECT COUNT(*) FROM users`;
+    return Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to card data.");
+  }
+}
 export async function getUserModulePdf(
   user_id: string,
   module_id: number,

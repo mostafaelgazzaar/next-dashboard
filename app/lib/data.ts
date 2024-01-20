@@ -84,6 +84,7 @@ export async function fetchCardData() {
     throw new Error("Failed to card data.");
   }
 }
+
 export async function fetchInvoiceById(id: string) {
   try {
     const data = await sql<InvoiceForm>`

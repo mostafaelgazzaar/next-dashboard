@@ -31,8 +31,9 @@ export async function filteredUsers(query: string, currentPage: number) {
   noStore();
   const rows: QueryResult<User> = await sql`
             SELECT * FROM users WHERE
-            users.name ILIKE ${`%${query}%`} OR
-            users.email ILIKE ${`%${query}%`}
+            role = 'STUDENT' AND
+          (  users.name ILIKE ${`%${query}%`} OR
+            users.email ILIKE ${`%${query}%`})
     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}`;
 
   return rows.rows;
