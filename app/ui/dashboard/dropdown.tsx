@@ -47,6 +47,7 @@ export default function Dropdown() {
     selected = module;
     if (module) {
       params.set("module", module.id.toString());
+      params.set("page", "1");
     } else {
       params.delete("module");
     }

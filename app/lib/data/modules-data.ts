@@ -110,9 +110,14 @@ export async function getUserWithUSerModules(
   }
 }
 export async function usersWithPdfPages(moduleId: number) {
+  // Check if moduleId is a number
+  if (typeof moduleId !== "number") {
+    throw new Error("Invalid module_id. Please provide a valid module_id.");
+  }
+
   const count = await sql`
     select count(*) from pdfs where module_id = ${moduleId}
- `;
+  `;
   const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
   return totalPages;
 }
