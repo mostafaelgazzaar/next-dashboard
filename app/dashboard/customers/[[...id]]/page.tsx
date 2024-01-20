@@ -39,6 +39,7 @@ export default async function Page({
   if (!userId) {
     if (user?.id) userId = user?.id;
   }
+  console.log(userId);
   const cardUser = await getUserById(userId);
   const selectedModule = await fetchModuleById(moduleId);
   const userModules = await fetchUsersModules(user.id);
@@ -112,7 +113,7 @@ export default async function Page({
       </h1>
       <Dropdown />
       <div className="flex justify-between ">
-        {user?.env === "LOW" && (
+        {cardUser?.env === "LOW" && (
           <section className="mt-5 ml-1 w-3/4 flex-col ">
             <div className="w-full p-5">
               <hr className="text-gray-500 text-3xl my-3" />
@@ -156,7 +157,7 @@ export default async function Page({
             </div>
           </section>
         )}
-        {(user?.env === "HIGH" || user.env === "MEDIUM") && (
+        {(cardUser?.env === "HIGH" || cardUser.env === "MEDIUM") && (
           <section className="mt-5 ml-1 w-3/4 flex-col ">
             <div className="flex gap-5">
               <div className="w-1/3">
@@ -196,7 +197,7 @@ export default async function Page({
                 <PerformanceTable
                   data={performanceData}
                   moduleId={moduleId}
-                  withDetails={user.env === "HIGH"}
+                  withDetails={cardUser.env === "HIGH"}
                 />
               </Suspense>
             </div>
