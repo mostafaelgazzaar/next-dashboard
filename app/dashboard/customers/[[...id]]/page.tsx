@@ -80,6 +80,7 @@ export default async function Page({
     moduleDuration: selectedModule?.duration,
     percentage,
   };
+  console.log(percentage);
 
   const data: [string, string | number][] = [
     ["Task", "انشطة المستخدم"],

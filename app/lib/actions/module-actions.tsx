@@ -64,7 +64,7 @@ export async function updateExamResult(prevState: State, formData: FormData) {
     let attemptsCount;
     const userTestAttempts = await getUserTestTempts(
       userId?.toString(),
-      moduleId ? +moduleId : null
+      moduleId ? +moduleId : null,
     );
 
     //get module result
@@ -130,7 +130,7 @@ export async function updateModuleWatchedDuration(
   duration: number,
   moduleId: number,
   userId: string,
-  totalDuration: number
+  totalDuration: number,
 ) {
   try {
     await sql`
@@ -146,6 +146,7 @@ export async function updateModuleWatchedDuration(
         await sql` 
         insert into user_modules (user_id, module_id, added_likes, added_comments, completed)
                 values (${userId}, ${moduleId}, false, null , false)`;
+        await completeModule(userId, moduleId);
       }
     }
   } catch (error) {
@@ -155,7 +156,7 @@ export async function updateModuleWatchedDuration(
 }
 export async function getUserTestTempts(
   user_id: string | undefined,
-  module_id: number | null
+  module_id: number | null,
 ) {
   if (!user_id || !module_id) return null;
   const data = await sql<UserTestAttempts>`
@@ -166,7 +167,7 @@ export async function getUserTestTempts(
 
 export async function checkUserCompletion(
   user_id: string | undefined,
-  module_id: number
+  module_id: number,
 ) {
   try {
     let percentage = 0;
@@ -268,7 +269,7 @@ export async function completeModule(userId: string, moduleId: number) {
 export async function updateInteractionCount(
   userId: string,
   moduleId: number,
-  count: number
+  count: number,
 ) {
   try {
     await sql`update user_performance
