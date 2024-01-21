@@ -25,8 +25,8 @@ export default async function PagePage({
   }
 
   const currentPage = Number(searchParams?.page) || 1;
-
-  const totalPages = await usersWithPdfPages(moduleId);
+  const totalPages = await usersWithPdfPages(moduleId, query);
+  console.log(totalPages);
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">

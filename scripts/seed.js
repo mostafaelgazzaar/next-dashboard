@@ -95,7 +95,6 @@ async function seedUserPerformance(client) {
     // insert sample data for user_performance with values
     let users = await client.sql`select * from users`;
     users = users.rows;
-    console.log(users);
     const insertedUserPerformance = await Promise.all(
       users.map(async (user) => {
         return client.sql`

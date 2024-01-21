@@ -2,7 +2,7 @@ import Search from "@/app/ui/search";
 import { lusitana } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
-import { usersWithPdfPages } from "@/app/lib/data/modules-data";
+import { usersCount, usersWithPdfPages } from "@/app/lib/data/modules-data";
 import Dropdown from "@/app/ui/dashboard/dropdown";
 import Pagination from "@/app/ui/invoices/pagination";
 import UserActivityTable from "@/app/ui/invoices/user-activity-table";
@@ -26,7 +26,7 @@ export default async function Page({
 
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await usersWithPdfPages(moduleId);
+  const totalPages = await usersCount();
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">

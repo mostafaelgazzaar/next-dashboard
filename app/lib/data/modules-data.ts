@@ -46,13 +46,22 @@ export async function fetchUsersModules(user_id: string) {
   }
 }
 
-export async function getUserWithPdf(module_id: number, currentPage: number) {
+export async function getUserWithPdf(
+  moduleId: number,
+  currentPage: number,
+  query: string,
+) {
   try {
+    noStore();
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
+    if (typeof moduleId !== "number") {
+      throw new Error("Invalid moduleId. Please provide a valid moduleId.");
+    }
     const pdfs = await sql<Pdf>`
-            SELECT * FROM pdfs WHERE module_id = ${module_id}
-             LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}        `;
+            SELECT * FROM pdfs WHERE module_id = ${moduleId}
+          OFFSET ${offset}   LIMIT ${ITEMS_PER_PAGE} `;
+
     const usersIds = pdfs.rows.map((pdf) => pdf.user_id);
     if (usersIds.length === 0) return [] as User[];
     let users: User[] = [];
@@ -61,6 +70,11 @@ export async function getUserWithPdf(module_id: number, currentPage: number) {
             SELECT * FROM users WHERE id = ${usersIds[i]}
         `;
       users.push(user.rows[0]);
+    }
+    if (query) {
+      users = users.filter((user) =>
+        user.name.toLowerCase().includes(query.toLowerCase()),
+      );
     }
 
     return users.map((user) => ({
@@ -110,15 +124,17 @@ export async function getUserWithUSerModules(
     throw new Error("Failed to fetch the modules.");
   }
 }
-export async function usersWithPdfPages(moduleId: number) {
+export async function usersWithPdfPages(moduleId: number, query: string) {
   // Check if moduleId is a number
+  noStore();
   if (typeof moduleId !== "number") {
     throw new Error("Invalid module_id. Please provide a valid module_id.");
   }
 
   const count = await sql`
-    select count(*) from pdfs where module_id = ${moduleId}
+    select count(*) from pdfs where module_id = ${moduleId} 
   `;
+
   const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
   return totalPages;
 }

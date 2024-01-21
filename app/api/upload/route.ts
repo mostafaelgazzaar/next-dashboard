@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   if (!file) {
     return NextResponse.json(
       { error: "File blob is required." },
-      { status: 400 }
+      { status: 400 },
     );
   }
   let credential;
@@ -19,8 +19,8 @@ export async function POST(request: NextRequest) {
     credential = JSON.parse(
       Buffer.from(
         process.env.GOOGLE_APPLICATION_CREDENTIALS,
-        "base64"
-      ).toString()
+        "base64",
+      ).toString(),
     );
   } else {
     // Handle the case when the environment variable is not defined
@@ -37,21 +37,25 @@ export async function POST(request: NextRequest) {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const filename = `${file.name.replace(
       /\.[^/.]+$/,
-      ""
+      "",
     )}-${uniqueSuffix}.${mime.getExtension(file.type)}`;
     const blob = storage.bucket(bucketName).file(filename);
+    // await blob.makePublic();
     const blobStream = blob.createWriteStream();
 
     return new Promise((resolve, reject) => {
       blobStream.on("error", (err: string) => {
         console.error("Error while trying to upload a file\n", err);
         resolve(
-          NextResponse.json({ error: "Something went wrong." }, { status: 500 })
+          NextResponse.json(
+            { error: "Something went wrong." },
+            { status: 500 },
+          ),
         );
       });
-      console.log(blob.name);
 
       blobStream.on("finish", async () => {
+        await blob.makePublic();
         const url = `https://storage.googleapis.com/${bucketName}/${blob.name}`;
         await updatePdf(url, userId, moduleId);
         resolve(NextResponse.json({ fileUrl: url }));
@@ -62,7 +66,7 @@ export async function POST(request: NextRequest) {
     console.error("Error while trying to upload a file\n", e);
     return NextResponse.json(
       { error: "Something went wrong." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

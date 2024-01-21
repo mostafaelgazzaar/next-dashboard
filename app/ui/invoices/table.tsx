@@ -11,7 +11,7 @@ export default async function InvoicesTable({
   moduleId: number;
   currentPage: number;
 }) {
-  const pdfs = await getUserWithPdf(moduleId, currentPage);
+  const pdfs = await getUserWithPdf(moduleId, currentPage, query);
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -77,10 +77,7 @@ export default async function InvoicesTable({
                   </td>
                   <td className="px-3 py-3 text-right">
                     <a
-                      href={`/${user?.pdf?.path
-                        ?.split("\\")
-                        .slice(-3)
-                        .join("/")}`}
+                      href={`${user?.pdf?.path}`}
                       download={user.name.replace(".", "_")}
                     >
                       <ArrowDownCircleIcon className="w-5 h-5 text-blue-500" />
