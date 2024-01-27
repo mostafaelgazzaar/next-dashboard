@@ -299,7 +299,17 @@ export default function FullPage({
           <Tab.Panel>
             <div>
               {userPdf && userPdf.path ? (
-                <FeedBack title="تم رفع النشاط بنجاج" />
+                <>
+                  <FeedBack title="تم رفع النشاط بنجاج" />
+                  <h1 className=" text-center italic m-4 text-2xl">
+                    اعادة رفع النشاط{" "}
+                  </h1>
+                  <FileUploader
+                    moduleId={d.id}
+                    userId={user.id}
+                    title={d.assignment_title}
+                  />
+                </>
               ) : (
                 <FileUploader
                   moduleId={d.id}
