@@ -92,7 +92,12 @@ export default async function Page({
     ["اضافة تعليق", performanceData.addedComments ? 20 : 0.5],
     ["اضافة اعجاب", performanceData.addedLikes ? 20 : 0.5],
     ["اضافة النشاط", performanceData.addedPdf ? 20 : 0.5],
-    ["النتيجة", performanceData.moduleResultScore >= 3 ? 20 : 0.5],
+    [
+      "النتيجة",
+      performanceData.moduleResultScore
+        ? performanceData.moduleResultScore * 4
+        : 0.5,
+    ],
   ];
 
   const options = {
