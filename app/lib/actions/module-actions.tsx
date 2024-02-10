@@ -194,8 +194,10 @@ export async function checkUserCompletion(
     if (addedLikes || addedDislikes) percentage += 20;
     if (addedPdf) percentage += 20;
     if (addedComments) percentage += 20;
-    if (moduleResultScore >= 3) percentage += 20;
-
+    //add switch case for module result
+    if (moduleResult) {
+      percentage += moduleResultScore * 4;
+    }
     return {
       percentage,
       addedLikes,
