@@ -9,14 +9,19 @@ import Duration from "@/app/ui/exams/duration";
 import { GlobeAltIcon } from "@heroicons/react/24/solid";
 import ProgressLine from "@/app/ui/dashboard/lin-progress";
 import { Tooltip } from "antd";
+import { CompleteExam } from "@/app/ui/exams/complete-exam";
 
 export default function PerformanceTable({
   data,
   moduleId,
+  userId,
+  userRole,
   withDetails,
 }: {
   data: PerformanceData;
   moduleId: number;
+  userId: string;
+  userRole: string;
   withDetails?: boolean;
 }) {
   return (
@@ -361,6 +366,22 @@ export default function PerformanceTable({
                   </div>
                 </div>
               </div>
+            </td>
+          </tr>
+        )}
+
+        {userRole === "ADMIN" && (
+          <tr role="row">
+            <td className="py-3 text-sm px-3" role="cell">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-medium text-navy-700 dark:text-white">
+                  اعادة تصحيح الاختبار
+                </p>
+              </div>
+            </td>
+            <td className="py-3 text-sm" role="cell"></td>
+            <td className="py-3 text-sm" role="cell">
+              <CompleteExam moduleId={moduleId} userId={userId} />
             </td>
           </tr>
         )}

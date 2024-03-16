@@ -19,7 +19,6 @@ export function LikeButton({
         className="block mx-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
         onClick={async () => {
           await addLike(userId, moduleId);
-          setTimeout(() => {}, 1000);
           await handleOpenNextModule(userId, moduleId);
           if (interactionCount) {
             await updateInteractionCount(

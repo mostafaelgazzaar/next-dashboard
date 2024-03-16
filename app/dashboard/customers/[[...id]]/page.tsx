@@ -39,7 +39,6 @@ export default async function Page({
   if (!userId) {
     if (user?.id) userId = user?.id;
   }
-  console.log(userId);
   const cardUser = await getUserById(userId);
   const selectedModule = await fetchModuleById(moduleId);
   const userModules = await fetchUsersModules(user.id);
@@ -202,6 +201,8 @@ export default async function Page({
                 <PerformanceTable
                   data={performanceData}
                   moduleId={moduleId}
+                  userId={userId}
+                  userRole={user.role}
                   withDetails={cardUser.env === "HIGH"}
                 />
               </Suspense>
