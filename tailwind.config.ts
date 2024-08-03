@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 // @ts-ignore
+// @ts-ignore
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -28,8 +29,7 @@ const config: Config = {
       },
     },
   },
-
+  darkMode: "class",
   plugins: [require("@tailwindcss/forms")],
-  darkMode: "false",
 };
 export default config;
