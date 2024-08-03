@@ -51,16 +51,18 @@ export default function PerformanceTable({
               النتيجة
             </div>
           </th>
-          <th
-            colSpan={3}
-            role="columnheader"
-            title="Toggle SortBy"
-            className="cursor-pointer"
-          >
-            <div className="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs">
-              التحسين
-            </div>
-          </th>
+          {withDetails && (
+            <th
+              colSpan={3}
+              role="columnheader"
+              title="Toggle SortBy"
+              className="cursor-pointer"
+            >
+              <div className="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs">
+                التحسين
+              </div>
+            </th>
+          )}
         </tr>
       </thead>
       <tbody role="rowgroup" className="px-4">
@@ -82,29 +84,31 @@ export default function PerformanceTable({
               text=""
             />
           </td>
-          <td className="py-3 text-sm" role="cell">
-            <div className="mx-2 flex font-bold">
-              <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
-                <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
-                  {data.watchedDuration >= data.moduleDuration / 2 ? (
-                    <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      احسنت
-                    </span>
-                  ) : (
-                    <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      {withDetails ? (
-                        <Link href={`/dashboard/exams/${moduleId}?tab=Video`}>
-                          اعادة المشاهدة{" "}
-                        </Link>
-                      ) : (
-                        "----"
-                      )}
-                    </span>
-                  )}
+          {withDetails && (
+            <td className="py-3 text-sm" role="cell">
+              <div className="mx-2 flex font-bold">
+                <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
+                  <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
+                    {data.watchedDuration >= data.moduleDuration / 2 ? (
+                      <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        احسنت
+                      </span>
+                    ) : (
+                      <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {withDetails ? (
+                          <Link href={`/dashboard/exams/${moduleId}?tab=Video`}>
+                            اعادة المشاهدة{" "}
+                          </Link>
+                        ) : (
+                          "----"
+                        )}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
+            </td>
+          )}
           <td className=" text-lg" role="cell">
             {withDetails && (
               <Tooltip
@@ -136,32 +140,36 @@ export default function PerformanceTable({
               {`${data.moduleResultScore} / 5`}
             </p>
           </td>
-          <td className="py-3 text-sm" role="cell">
-            <div className="mx-2 flex font-bold">
-              <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
-                <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
-                  {data.moduleResultScore > 3 ? (
-                    <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      احسنت
-                    </span>
-                  ) : (
-                    <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      {withDetails ? (
-                        <>
-                          {" "}
-                          <Link href={`/dashboard/exams/${moduleId}?tab=test`}>
-                            اعادة الاختبار{" "}
-                          </Link>
-                        </>
-                      ) : (
-                        "----"
-                      )}
-                    </span>
-                  )}
+          {withDetails && (
+            <td className="py-3 text-sm" role="cell">
+              <div className="mx-2 flex font-bold">
+                <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
+                  <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
+                    {data.moduleResultScore > 3 ? (
+                      <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        احسنت
+                      </span>
+                    ) : (
+                      <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {withDetails ? (
+                          <>
+                            {" "}
+                            <Link
+                              href={`/dashboard/exams/${moduleId}?tab=test`}
+                            >
+                              اعادة الاختبار{" "}
+                            </Link>
+                          </>
+                        ) : (
+                          "----"
+                        )}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
+            </td>
+          )}
           {withDetails && (
             <td className=" text-lg" role="cell">
               <Tooltip placement="topRight" title="نتيجة الاختبار الكلية">
@@ -188,32 +196,36 @@ export default function PerformanceTable({
               {data.addedComments ? "مكتمل" : "غير مكتمل"}
             </p>
           </td>
-          <td className="py-3 text-sm" role="cell">
-            <div className="mx-2 flex font-bold">
-              <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
-                <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
-                  {data.addedComments ? (
-                    <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      احسنت
-                    </span>
-                  ) : (
-                    <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      {withDetails ? (
-                        <>
-                          <Link href={`/dashboard/exams/${moduleId}?tab=Video`}>
-                            {" "}
-                            اضافة تعليق
-                          </Link>
-                        </>
-                      ) : (
-                        "----"
-                      )}
-                    </span>
-                  )}
+          {withDetails && (
+            <td className="py-3 text-sm" role="cell">
+              <div className="mx-2 flex font-bold">
+                <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
+                  <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400">
+                    {data.addedComments ? (
+                      <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        احسنت
+                      </span>
+                    ) : (
+                      <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {withDetails ? (
+                          <>
+                            <Link
+                              href={`/dashboard/exams/${moduleId}?tab=Video`}
+                            >
+                              {" "}
+                              اضافة تعليق
+                            </Link>
+                          </>
+                        ) : (
+                          "----"
+                        )}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
+            </td>
+          )}
           {withDetails && (
             <td className="py-3 text-sm" role="cell">
               <ProgressLine percentage={data.addedComments ? 100 : 0} />
@@ -236,31 +248,35 @@ export default function PerformanceTable({
               {data.addedLikes ? "مكتمل " : "غير مكتمل "}
             </p>
           </td>
-          <td className="py-3 text-sm" role="cell">
-            <div className="mx-2 flex font-bold">
-              <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
-                <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
-                  {data.addedLikes ? (
-                    <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      احسنت
-                    </span>
-                  ) : (
-                    <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      {withDetails ? (
-                        <>
-                          <Link href={`/dashboard/exams/${moduleId}?tab=Video`}>
-                            اضافة اعجاب
-                          </Link>
-                        </>
-                      ) : (
-                        "----"
-                      )}
-                    </span>
-                  )}
+          {withDetails && (
+            <td className="py-3 text-sm" role="cell">
+              <div className="mx-2 flex font-bold">
+                <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
+                  <div className="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
+                    {data.addedLikes ? (
+                      <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        احسنت
+                      </span>
+                    ) : (
+                      <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {withDetails ? (
+                          <>
+                            <Link
+                              href={`/dashboard/exams/${moduleId}?tab=Video`}
+                            >
+                              اضافة اعجاب
+                            </Link>
+                          </>
+                        ) : (
+                          "----"
+                        )}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
+            </td>
+          )}
           {withDetails && (
             <td className="py-3 text-sm" role="cell">
               <ProgressLine percentage={data.addedLikes ? 100 : 0} />
@@ -284,33 +300,35 @@ export default function PerformanceTable({
               {data.addedPdf ? "مكتمل" : "غير مكتمل"}
             </p>
           </td>
-          <td className="py-3 text-sm" role="cell">
-            <div className="mx-2 flex font-bold">
-              <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
-                <div className=" h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
-                  {data.addedPdf ? (
-                    <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                      احسنت
-                    </span>
-                  ) : (
-                    <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                      {withDetails ? (
-                        <>
-                          <Link
-                            href={`/dashboard/exams/${moduleId}?tab=upload`}
-                          >
-                            ارفع النشاط
-                          </Link>
-                        </>
-                      ) : (
-                        "----"
-                      )}
-                    </span>
-                  )}
+          {withDetails && (
+            <td className="py-3 text-sm" role="cell">
+              <div className="mx-2 flex font-bold">
+                <div className="h-2 w-30 rounded-full  dark:bg-navy-700">
+                  <div className=" h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400 w-full">
+                    {data.addedPdf ? (
+                      <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        احسنت
+                      </span>
+                    ) : (
+                      <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                        {withDetails ? (
+                          <>
+                            <Link
+                              href={`/dashboard/exams/${moduleId}?tab=upload`}
+                            >
+                              ارفع النشاط
+                            </Link>
+                          </>
+                        ) : (
+                          "----"
+                        )}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
+            </td>
+          )}
           {withDetails && (
             <td className="py-3 text-sm" role="cell">
               <ProgressLine percentage={data.addedPdf ? 100 : 0} />

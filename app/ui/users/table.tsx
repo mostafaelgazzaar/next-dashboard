@@ -15,7 +15,7 @@ export default async function UsersTable({
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
-        الطللاب
+        الطلاب
       </h1>
       <Search placeholder="Search users..." />
       <div className="mt-6 flow-root">

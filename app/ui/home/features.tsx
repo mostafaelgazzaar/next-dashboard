@@ -85,10 +85,10 @@ export default function Features() {
               <BookOpenIcon className="w-6 h-6 text-white fill-current" />
             </div>
             <h3 className="mb-4 text-2xl font-semibold dark:text-white">
-              الموديلات
+              الموديولات
             </h3>
             <p className="text-base text-gray-500 dark:text-gray-400">
-              تعرف على الموديلات المتاحة والتي تحتوي على محاضرات واختبارات
+              تعرف على الموديولات المتاحة والتي تحتوي على محاضرات واختبارات
               ومحتويات متنوعة وتتكون من 5 موديلات مختلفة
             </p>
             <div className="flex justify-center w-full mx-2">
