@@ -4,6 +4,7 @@ import { getUserPerformance } from "@/app/lib/data/dashboard-data";
 import {
   checkUserCompletion,
   getUserModulesScore,
+  PASS_PERCENTAGE,
 } from "@/app/lib/actions/module-actions";
 import UserCard from "@/app/ui/invoices/user-card";
 import { User } from "@/app/lib/definitions";
@@ -22,6 +23,7 @@ import ProgressCircle from "@/app/ui/dashboard/progress-circle";
 import { Suspense } from "react";
 import { CardSkeleton, InvoiceSkeleton } from "@/app/ui/skeletons";
 import Wrapper from "@/app/ui/customers/wrapper";
+import { CompleteExam } from "@/app/ui/exams/complete-exam";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Page({
@@ -112,10 +114,15 @@ export default async function Page({
 
   return (
     <>
-      <h1 className="text-3xl font-semibold text-gray-900">
+      <h1 className="text-3xl font-semibold text-gray-900 mb-2">
         أداء الطالب الكلي{" "}
       </h1>
-      <Dropdown />
+      <div className="flex justify-start gap-24">
+        <div className="">
+          <Dropdown />
+        </div>
+      </div>
+
       <div className="flex justify-between ">
         {cardUser?.env === "LOW" && (
           <section className="mt-5 ml-1 w-3/4 flex-col ">
@@ -197,15 +204,13 @@ export default async function Page({
             </div>
             <hr className="text-gray-500 text-3xl my-3" />
             <div>
-              <Suspense fallback={<InvoiceSkeleton />}>
-                <PerformanceTable
-                  data={performanceData}
-                  moduleId={moduleId}
-                  userId={userId}
-                  userRole={user.role}
-                  withDetails={cardUser.env === "HIGH"}
-                />
-              </Suspense>
+              <PerformanceTable
+                data={performanceData}
+                moduleId={moduleId}
+                userId={userId}
+                userRole={user.role}
+                withDetails={cardUser.env === "HIGH"}
+              />
             </div>
             <hr className="text-gray-500 text-3xl my-3" />
 
@@ -218,6 +223,11 @@ export default async function Page({
         <div className="hidden md:block">
           <UserCard user={cardUser} />
         </div>
+      </div>
+      <div>
+        {user.role === "ADMIN" && (
+          <CompleteExam moduleId={moduleId} userId={userId} />
+        )}
       </div>
     </>
   );
