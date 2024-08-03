@@ -4,7 +4,6 @@ import { getUserPerformance } from "@/app/lib/data/dashboard-data";
 import {
   checkUserCompletion,
   getUserModulesScore,
-  PASS_PERCENTAGE,
 } from "@/app/lib/actions/module-actions";
 import UserCard from "@/app/ui/invoices/user-card";
 import { User } from "@/app/lib/definitions";
